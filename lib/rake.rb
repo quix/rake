@@ -626,25 +626,39 @@ module Rake
     end
     private :format_trace_flags
 
-    # Execute the actions associated with this task.
-    def execute(args=nil)
-      args ||= EMPTY_TASK_ARGS
+    def execute_info
       if application.options.dryrun
         puts "** Execute (dry run) #{name}"
-        return
-      end
-      if application.options.trace
+      elsif application.options.trace
         puts "** Execute #{name}"
       end
-      application.enhance_with_matching_rule(name) if @actions.empty?
-      @actions.each do |act|
-        case act.arity
-        when 1
-          act.call(self)
-        else
-          act.call(self, args)
-        end
+    end
+
+    def explode(args=nil) #:nodoc:
+      if application.options.dryrun
+        []
+      else
+        args ||= EMPTY_TASK_ARGS
+        application.enhance_with_matching_rule(name) if @actions.empty?
+        @actions.map { |act|
+          case act.arity
+          when 1
+            lambda {
+              act.call(self)
+            }
+          else
+            lambda {
+              act.call(self, args)
+          }
+          end
+        }
       end
+    end
+
+    # Execute the actions associated with this task.
+    def execute(args=nil)
+      execute_info
+      explode(args).each { |act| act.call }
     end
 
     # Is this task needed?

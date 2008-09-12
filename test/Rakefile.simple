@@ -13,7 +13,12 @@ task :a => [:x, :y] do
 end
 
 task :b do
-  puts "task b"
+  puts "task b-1"
+  stuff
+end
+
+task :b do
+  puts "task b-2"
   stuff
 end
 

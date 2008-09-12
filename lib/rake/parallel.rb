@@ -2,16 +2,19 @@
 module Rake ; end
 
 require 'rake/comp_tree/driver'
+require 'rake/comp_tree/quix/kernel'
 
 module Rake
   module TaskManager
+    include CompTree::Quix::Kernel
+
     # :nodoc:
     def invoke_parallel_tasks
       parent_names = parallel_tasks.keys.map { |name|
         name.to_sym
       }
 
-      root_name = "computation_root__#{Process.pid}__#{rand}".to_sym
+      root_name = gensym("computation_root")
          
       CompTree::Driver.new(:discard_result => true) { |driver|
         #
@@ -27,6 +30,7 @@ module Rake
         #
         parallel_tasks.each_pair { |task_name, task_args|
           task = self[task_name]
+
           children_names = task.prerequisites.map { |child|
             if child_task = (lookup(child) or lookup(child, task.scope))
               child_task.name.to_sym
@@ -34,8 +38,28 @@ module Rake
               raise "couldn't resolve #{task_name} prereq: #{child_name}"
             end
           }
-          driver.define(task_name.to_sym, *children_names) {
-            task.execute(task_args)
+
+          #
+          # Explode the task into lambdas representing the individual
+          # blocks given to the task.
+          #
+          subnode_functions = task.explode(task_args)
+          subnode_names = (0...subnode_functions.size).map {
+            gensym(task_name)
+          }
+          
+          #
+          # Show the trace/dry run in the main node.
+          #
+          driver.define(task_name.to_sym, *subnode_names) {
+            task.execute_info
+          }
+
+          #
+          # Node for each of block added to the task.
+          #
+          subnode_names.each_with_index { |name, index|
+            driver.define(name, *children_names, &subnode_functions[index])
           }
         }
 
