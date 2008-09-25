@@ -1,0 +1,34 @@
+
+task :setup_a do
+  puts "setup_a"
+end
+
+task :setup_b do
+  puts "setup_b"
+end
+
+task :setup => [:setup_a, :setup_b] do
+  puts "setup phase complete. defining new tasks..."
+
+  task :main_a do
+    puts "main_a"
+  end
+
+  task :main_b do
+    puts "main_b"
+  end
+  
+  task :main => [:main_a, :main_b]
+
+  puts "restarting..."
+  throw :restart
+end
+
+task :main do
+  puts "main phase complete."
+end
+
+task :default => [:setup, :main] do
+  puts "all done."
+end
+

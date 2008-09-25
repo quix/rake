@@ -573,8 +573,8 @@ module Rake
           puts "** Invoke #{name} #{format_trace_flags}"
         end
         return if @already_invoked
-        @already_invoked = true
         invoke_prerequisites(task_args, new_chain)
+        @already_invoked = true
         execute(task_args) if needed?
       end
     end
@@ -1994,7 +1994,14 @@ module Rake
         elsif options.show_prereqs
           display_prerequisites
         else
-          top_level_tasks.each { |task_name| invoke_task(task_name) }
+          catch(:done) {
+            loop {
+              catch(:restart) {
+                top_level_tasks.each { |task_name| invoke_task(task_name) }
+                throw :done
+              }
+            }
+          }
         end
       end
     end
