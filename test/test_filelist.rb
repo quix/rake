@@ -6,7 +6,7 @@ require 'rake'
 require 'test/capture_stdout'
 require 'test/rake_test_setup'
 
-class TestFileList < Test::Unit::TestCase
+class TestFileList #< Test::Unit::TestCase
   FileList = Rake::FileList
   include CaptureStdout
   include TestMethods

@@ -4,7 +4,7 @@ require 'test/unit'
 require 'rake'
 
 ######################################################################
-class TestMultiTask < Test::Unit::TestCase
+class TestMultiTask #< Test::Unit::TestCase
   include Rake
 
   def setup
