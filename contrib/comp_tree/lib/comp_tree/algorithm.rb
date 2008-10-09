@@ -1,5 +1,6 @@
 
 require 'rake/comp_tree/diagnostic'
+require 'rake/comp_tree/retriable_fork'
 
 module Rake::CompTree
   module Algorithm
