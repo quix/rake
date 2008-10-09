@@ -42,7 +42,7 @@ module Rake
           driver.compute(
             root_node.name,
             :threads => num_threads,
-            :fork => false)
+            :fork => options.fork)
         end
       }
     end
