@@ -2305,6 +2305,9 @@ module Rake
             end
           }
         ],
+        ['--fork', '-k', "When --threads=N given, run each thread in a separate process.",
+          lambda { options.fork = true }
+        ],
         ['--libdir', '-I LIBDIR', "Include LIBDIR in the search path for required modules.",
           lambda { |value| $:.push(value) }
         ],
