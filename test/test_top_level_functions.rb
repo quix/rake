@@ -33,10 +33,14 @@ class TestTopLevelFunctions < Test::Unit::TestCase
   end
 
   def test_import
-    Rake.application.should_receive(:add_import).with("x").once.ordered
-    Rake.application.should_receive(:add_import).with("y").once.ordered
-    Rake.application.should_receive(:add_import).with("z").once.ordered
-    import('x', 'y', 'z')
+    if defined?(RUBY_ENGINE) and RUBY_ENGINE == "jruby"
+      puts "NOTE: skipping 'import' test for jruby"
+    else
+      Rake.application.should_receive(:add_import).with("x").once.ordered
+      Rake.application.should_receive(:add_import).with("y").once.ordered
+      Rake.application.should_receive(:add_import).with("z").once.ordered
+      import('x', 'y', 'z')
+    end
   end
 
   def test_when_writing
