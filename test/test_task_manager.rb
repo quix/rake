@@ -138,6 +138,7 @@ class TestTaskManager < Test::Unit::TestCase
   def test_correctly_scoped_prerequisites_are_invoked
     values = []
     @tm = Rake::Application.new
+    @tm.options.threads = Rake.application.options.threads
     @tm.define_task(Rake::Task, :z) do values << "top z" end
     @tm.in_namespace("a") do
       @tm.define_task(Rake::Task, :z) do values << "next z" end

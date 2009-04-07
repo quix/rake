@@ -21,7 +21,7 @@ class TestRules < Test::Unit::TestCase
 
   def setup
     Task.clear
-    @runs = []
+    @runs = SerializedArray.new
   end
 
   def teardown
@@ -317,7 +317,7 @@ class TestRules < Test::Unit::TestCase
   end
 
   def test_recursive_rules_will_work_as_long_as_they_terminate
-    actions = []
+    actions = SerializedArray.new
     create_file("testdata/abc.xml")
     rule '.y' => '.xml' do actions << 'y' end
     rule '.c' => '.y' do actions << 'c'end

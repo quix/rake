@@ -407,6 +407,8 @@ module Rake
   # InvocationChain tracks the chain of task invocations to detect
   # circular dependencies.
   class InvocationChain
+    attr_reader :value # :nodoc:
+
     def initialize(value, tail)
       @value = value
       @tail = tail
@@ -577,35 +579,60 @@ module Rake
       self
     end
 
-    # Invoke the task if it is needed.  Prerequites are invoked first.
-    def invoke(*args)
+    def invoke_serial(*args) # :nodoc:
       task_args = TaskArguments.new(arg_names, args)
       invoke_with_call_chain(task_args, InvocationChain::EMPTY)
     end
 
+    # Invoke the task if it is needed.  Prerequites are invoked first.
+    def invoke(*args)
+      if application.options.threads == 1
+        invoke_serial(*args)
+      else
+        invoke_parallel(*args)
+      end
+    end
+    
     # Same as invoke, but explicitly pass a call chain to detect
     # circular dependencies.
     def invoke_with_call_chain(task_args, invocation_chain) # :nodoc:
       new_chain = InvocationChain.append(self, invocation_chain)
-      @lock.synchronize do
-        if application.options.trace
-          puts "** Invoke #{name} #{format_trace_flags}"
+      if application.options.threads == 1
+        @lock.synchronize do
+          return unless prepare_invoke
+          invoke_prerequisites(task_args, new_chain)
+          execute(task_args) if needed?
         end
-        return if @already_invoked
-        @already_invoked = true
-        invoke_prerequisites(task_args, new_chain)
-        execute(task_args) if needed?
+      else
+        return unless prepare_invoke
+        invoke_with_call_chain_collector(task_args, new_chain, invocation_chain)
       end
     end
     protected :invoke_with_call_chain
 
+    def prepare_invoke # :nodoc:
+      if application.options.randomize
+        @prerequisites = @prerequisites.sort_by { rand }
+      end
+      if application.options.trace
+        puts "** Invoke #{name} #{format_trace_flags}"
+      end
+      return if @already_invoked
+      @already_invoked = true
+    end
+
     # Invoke all the prerequisites of a task.
     def invoke_prerequisites(task_args, invocation_chain) # :nodoc:
       @prerequisites.each { |n|
-        prereq = application[n, @scope]
-        prereq_args = task_args.new_scope(prereq.arg_names)
-        prereq.invoke_with_call_chain(prereq_args, invocation_chain)
+        invoke_prerequisite(n, task_args, invocation_chain)
       }
+    end
+
+    def invoke_prerequisite(prereq_name, task_args, invocation_chain) #:nodoc:
+      prereq = application[prereq_name, @scope]
+      prereq_args = task_args.new_scope(prereq.arg_names)
+      prereq.invoke_with_call_chain(prereq_args, invocation_chain)
+      prereq
     end
 
     # Format the trace flags for display.
@@ -1942,6 +1969,26 @@ module Rake
 
   end # TaskManager
 
+  #
+  # Lazily pull in the parallelizing code
+  #
+  class Options < OpenStruct  # :nodoc:
+    attr_reader :threads
+
+    def initialize
+      super
+      @threads = 1
+    end
+
+    def threads=(n)
+      if n > 1 and require('rake/parallel')
+        Task.module_eval { include Parallel::TaskMixin }
+        Application.module_eval { include Parallel::ApplicationMixin }
+      end
+      @threads = n
+    end
+  end
+
   ######################################################################
   # Rake main application object.  When invoking +rake+ from the
   # command line, a Rake::Application object is created and run.
@@ -2036,7 +2083,7 @@ module Rake
 
     # Application options from the command line
     def options
-      @options ||= OpenStruct.new
+      @options ||= Options.new
     end
 
     # private ----------------------------------------------------------------
@@ -2224,6 +2271,9 @@ module Rake
           "Execute some Ruby code, then continue with normal task processing.",
           lambda { |value| eval(value) }            
         ],
+        ['--threads', '-j N', "Run up to N independent tasks simultaneously in separate threads.",
+          lambda { |value| options.threads = value.to_i }
+        ],
         ['--libdir', '-I LIBDIR', "Include LIBDIR in the search path for required modules.",
           lambda { |value| $:.push(value) }
         ],
@@ -2243,6 +2293,13 @@ module Rake
         ['--rakelibdir', '--rakelib', '-R RAKELIBDIR',
           "Auto-import any .rake files in RAKELIBDIR. (default is 'rakelib')",
           lambda { |value| options.rakelib = value.split(':') }
+        ],
+        ['--randomize[=SEED]', "Randomize the order of sibling prerequisites.",
+          lambda { |value|
+            options.randomize = true
+            MultiTask.class_eval { remove_method(:invoke_prerequisites) }
+            srand(value.hash) if value
+          }
         ],
         ['--require', '-r MODULE', "Require MODULE before executing rakefile.",
           lambda { |value|

@@ -61,13 +61,22 @@ task :tf => :test_functional
 task :tu => :test_units
 task :tc => :test_contribs
 task :test => :test_units
+task :test_all => [:test_serial, :test_parallel]
 
-Rake::TestTask.new(:test_all) do |t|
-  t.test_files = FileList[
-    'test/test*.rb',
-    'test/contrib/test*.rb',
-    'test/fun*.rb'
-  ]
+test_files = FileList[
+  'test/test*.rb',
+  'test/contrib/test*.rb',
+  'test/fun*.rb'
+]
+
+Rake::TestTask.new(:test_serial) do |t|
+  t.test_files = ['test/serial_setup.rb'] + test_files
+  t.warning = true
+  t.verbose = false
+end
+
+Rake::TestTask.new(:test_parallel) do |t|
+  t.test_files = ['test/parallel_setup.rb'] + test_files
   t.warning = true
   t.verbose = false
 end
@@ -176,6 +185,7 @@ else
 
     #### Dependencies and requirements.
 
+    s.add_dependency('comp_tree', '>= 0.7.1')
     #s.add_dependency('log4r', '> 1.0.4')
     #s.requirements << ""
 
