@@ -134,6 +134,20 @@ if Rake.application.options.threads > 1
       end
     end
 
+    def test_mutex
+      task :root => mutex[:x, :y]
+      task :x do
+        sleep(0.5)
+      end
+      task :y do
+        sleep(0.5)
+      end
+      start = Time.now
+      Rake::Task[:root].invoke
+      stop = Time.now
+      assert_in_delta(1.0, stop - start, TIME_EPSILON)
+    end
+
     def test_multitask_not_called
       # ensure MultiTask methods are not called by hijacking all of them
 

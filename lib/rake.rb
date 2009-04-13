@@ -488,6 +488,9 @@ module Rake
     # Array of nested namespaces names used for task lookup by this task.
     attr_reader :scope
 
+    # Array of mutexes for this task.
+    attr_reader :mutexes
+
     # Return task name
     def to_s
       name
@@ -521,6 +524,7 @@ module Rake
       @application = app
       @scope = app.current_scope
       @arg_names = nil
+      @mutexes = []
     end
 
     # Enhance a task with prerequisites or actions.  Returns self.
@@ -564,6 +568,7 @@ module Rake
     def clear
       clear_prerequisites
       clear_actions
+      clear_mutexes
       self
     end
 
@@ -576,6 +581,12 @@ module Rake
     # Clear the existing actions on a rake task.
     def clear_actions
       actions.clear
+      self
+    end
+
+    # Clear the existing mutexes on a rake task.
+    def clear_mutexes
+      mutexes.clear
       self
     end
 
@@ -644,8 +655,7 @@ module Rake
     end
     private :format_trace_flags
 
-    # Execute the actions associated with this task.
-    def execute(args=nil)
+    def execute_private(args)
       args ||= EMPTY_TASK_ARGS
       if application.options.dryrun
         puts "** Execute (dry run) #{name}"
@@ -662,6 +672,23 @@ module Rake
         else
           act.call(self, args)
         end
+      end
+    end
+    private :execute_private
+
+    # Execute the actions associated with this task.
+    def execute(args=nil)
+      if @mutexes.empty?
+        execute_private(args)
+      else
+        execute_lambda = lambda {
+          execute_private(args)
+        }
+        @mutexes.inject(execute_lambda) { |acc, mutex|
+          lambda {
+            mutex.synchronize(&acc)
+          }
+        }.call
       end
     end
 
@@ -989,6 +1016,17 @@ end
 #
 def seq
   Rake.application.method(:create_sequence)
+end
+
+#
+# Create a common mutex for the list of tasks.  Only one will be
+# able to run at a time.
+#
+# Example:
+#   task :default => mutex[:x, :y, :z]
+#
+def mutex
+  Rake.application.method(:mutex)
 end
 
 # ###########################################################################
@@ -2247,6 +2285,16 @@ module Rake
         puts "#{name} #{t.name}"
         t.prerequisites.each { |pre| puts "    #{pre}" }
       end
+    end
+
+    # Create a common mutex for the list of tasks.  Only one will be
+    # able to run at a time.
+    def mutex(*task_names)
+      new_mutex = Mutex.new
+      task_names.each do |task_name|
+        define_task(Task, task_name).mutexes << new_mutex
+      end
+      task_names
     end
 
     # A list of all the standard options used in rake, suitable for
