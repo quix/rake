@@ -79,6 +79,24 @@ if Rake.application.options.threads > 1
       }
     end 
 
+    def test_seq
+      task_names = (1..50).map { |n| "seq_test_" + n.to_s }
+      order_invoked = SerializedArray.new
+      mutex = Mutex.new
+
+      task_names.each { |task_name|
+        task task_name do
+          mutex.synchronize {
+            order_invoked << task_name
+          }
+        end
+      }
+      
+      task :seq_test_root => seq[*task_names]
+      Rake::Task[:seq_test_root].invoke
+      assert_equal(task_names, order_invoked)
+    end
+    
     def test_invoke_inside_invoke
       assert_raises(Rake::InvokeInsideInvoke) {
         app = Rake::Application.new

@@ -979,6 +979,18 @@ def import(*fns)
   end
 end
 
+#
+# Bestow a sequential dependency on a list of tasks.
+#
+# Example:
+#   task :default => seq[:x, :y, :z]
+#
+# This ensures tasks x, y, z are executed in that order.
+#
+def seq
+  Rake.application.method(:create_sequence)
+end
+
 # ###########################################################################
 # This a FileUtils extension that defines several additional commands to be
 # added to the FileUtils utility functions.
@@ -1967,6 +1979,13 @@ module Rake
       }.flatten
     end
 
+    # Create a sequential dependency between tasks.
+    def create_sequence(*task_names)
+      (1...task_names.size).each do |n|
+        define_task Task, task_names[n] => task_names[n - 1]
+      end
+      task_names.last
+    end
   end # TaskManager
 
   #
