@@ -29,7 +29,11 @@ module Rake
 
     # Are there any prerequisites with a later time than the given time stamp?
     def out_of_date?(stamp)
-      @prerequisites.any? { |n| application[n, @scope].timestamp > stamp}
+      @prerequisites.any? { |n|
+        task = application[n, @scope]
+        task.timestamp > stamp or
+          (task.is_a?(FileTask) and !File.exist?(task.name))
+      }
     end
 
     # ----------------------------------------------------------------

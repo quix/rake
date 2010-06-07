@@ -70,6 +70,7 @@ class TestFileTask < Test::Unit::TestCase
     delete_file(NEWFILE)
     file NEWFILE
     file OLDFILE => NEWFILE
+    assert Task[OLDFILE].needed?, "Should need to rebuild file"
     assert_nothing_raised do Task[OLDFILE].invoke end
   end
 
