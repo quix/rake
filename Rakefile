@@ -62,9 +62,18 @@ task :default => :test
 
 # Test Tasks ---------------------------------------------------------
 
-Rake::TestTask.new do |t|
-  files = FileList['test/helper.rb', 'test/test_*.rb']
-  t.test_files = files
+task :test => [:test_serial, :test_parallel]
+
+TEST_FILES = FileList['test/helper.rb', 'test/test_*.rb']
+
+Rake::TestTask.new :test_serial do |t|
+  t.test_files = ['test/setup_serial.rb'] + TEST_FILES
+  t.libs << "."
+  t.warning = true
+end
+
+Rake::TestTask.new :test_parallel do |t|
+  t.test_files = ['test/setup_parallel.rb'] + TEST_FILES
   t.libs << "."
   t.warning = true
 end
@@ -178,6 +187,7 @@ else
     EOF
 
     #### Dependencies and requirements.
+    s.add_dependency('comp_tree', '>= 1.1.3')
 
     s.required_rubygems_version = '>= 1.3.2'
     s.add_development_dependency 'minitest', '~> 2.1'

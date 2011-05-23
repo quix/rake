@@ -5,6 +5,8 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
     super
 
     @app = Rake::Application.new
+    @app.options.threads = Rake.application.options.threads
+    @app
   end
 
   def test_name_only
@@ -45,6 +47,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
 
   def test_terminal_width_using_env
     app = Rake::Application.new
+    app.options.threads = Rake.application.options.threads
     in_environment('RAKE_COLUMNS' => '1234') do
       assert_equal 1234, app.terminal_width
     end
@@ -52,6 +55,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
 
   def test_terminal_width_using_stty
     app = Rake::Application.new
+    app.options.threads = Rake.application.options.threads
     flexmock(app,
       :unix? => true,
       :dynamic_width_stty => 1235,
@@ -63,6 +67,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
 
   def test_terminal_width_using_tput
     app = Rake::Application.new
+    app.options.threads = Rake.application.options.threads
     flexmock(app,
       :unix? => true,
       :dynamic_width_stty => 0,
@@ -74,6 +79,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
 
   def test_terminal_width_using_hardcoded_80
     app = Rake::Application.new
+    app.options.threads = Rake.application.options.threads
     flexmock(app, :unix? => false)
     in_environment('RAKE_COLUMNS' => nil) do
       assert_equal 80, app.terminal_width
@@ -82,6 +88,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
 
   def test_terminal_width_with_failure
     app = Rake::Application.new
+    app.options.threads = Rake.application.options.threads
     flexmock(app).should_receive(:unix?).and_throw(RuntimeError)
     in_environment('RAKE_COLUMNS' => nil) do
       assert_equal 80, app.terminal_width
@@ -92,6 +99,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
     in_environment do
       ARGV << '--trace'
       app = Rake::Application.new
+      app.options.threads = Rake.application.options.threads
       app.init
       assert !app.options.silent
     end
@@ -101,6 +109,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
     in_environment("RAKEOPT" => "") do
       ARGV << '--trace'
       app = Rake::Application.new
+      app.options.threads = Rake.application.options.threads
       app.init
       assert !app.options.silent
     end
@@ -109,6 +118,7 @@ class TestRakeTaskArgumentParsing < Rake::TestCase
   def test_rakeopt_with_silent_options
     in_environment("RAKEOPT" => "-s") do
       app = Rake::Application.new
+      app.options.threads = Rake.application.options.threads
       app.init
       assert app.options.silent
     end

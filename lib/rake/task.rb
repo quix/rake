@@ -140,6 +140,14 @@ module Rake
 
     # Invoke the task if it is needed.  Prerequisites are invoked first.
     def invoke(*args)
+      if application.options.threads == 1
+        invoke_serial(*args)
+      else
+        invoke_parallel(*args)
+      end
+    end
+
+    def invoke_serial(*args) # :nodoc:
       task_args = TaskArguments.new(arg_names, args)
       invoke_with_call_chain(task_args, InvocationChain::EMPTY)
     end
@@ -148,20 +156,34 @@ module Rake
     # circular dependencies.
     def invoke_with_call_chain(task_args, invocation_chain) # :nodoc:
       new_chain = InvocationChain.append(self, invocation_chain)
-      @lock.synchronize do
-        if application.options.trace
-          $stderr.puts "** Invoke #{name} #{format_trace_flags}"
+      if application.options.threads == 1
+        @lock.synchronize do
+          return unless prepare_invoke
+          invoke_prerequisites(task_args, new_chain)
+          execute(task_args) if needed?
         end
-        return if @already_invoked
-        @already_invoked = true
-        invoke_prerequisites(task_args, new_chain)
-        execute(task_args) if needed?
+      else
+        return unless prepare_invoke
+        # see parallel.rb
+        collect_for_parallel_execution(task_args, new_chain, invocation_chain)
       end
     rescue Exception => ex
       add_chain_to(ex, new_chain)
       raise ex
     end
     protected :invoke_with_call_chain
+
+    def prepare_invoke # :nodoc:
+      if application.options.randomize
+        @prerequisites = @prerequisites.sort_by { rand }
+      end
+      if application.options.trace
+        $stderr.puts "** Invoke #{name} #{format_trace_flags}"
+      end
+      return if @already_invoked
+      @already_invoked = true
+    end
+    private :prepare_invoke
 
     def add_chain_to(exception, new_chain)
       exception.extend(InvocationExceptionMixin) unless exception.respond_to?(:chain)
@@ -171,10 +193,12 @@ module Rake
 
     # Invoke all the prerequisites of a task.
     def invoke_prerequisites(task_args, invocation_chain) # :nodoc:
-      prerequisite_tasks.each { |prereq|
+      prereqs = prerequisite_tasks
+      prereqs.each { |prereq|
         prereq_args = task_args.new_scope(prereq.arg_names)
         prereq.invoke_with_call_chain(prereq_args, invocation_chain)
       }
+      prereqs
     end
 
     # Format the trace flags for display.

@@ -101,7 +101,7 @@ module Rake
 
     # Application options from the command line
     def options
-      @options ||= OpenStruct.new
+      @options ||= Options.new
     end
 
     # private ----------------------------------------------------------------
@@ -322,6 +322,12 @@ module Rake
           "Execute some Ruby code, then continue with normal task processing.",
           lambda { |value| eval(value) }
         ],
+        ['--threads', '-j [N]', Integer, "Run up to N tasks simultaneously; without N (or N=0), no limit.",
+         lambda { |value|
+           # nil.to_i == 0, which means unlimited threads
+           options.threads = value.to_i
+         }
+        ],
         ['--libdir', '-I LIBDIR', "Include LIBDIR in the search path for required modules.",
           lambda { |value| $:.push(value) }
         ],
@@ -344,6 +350,16 @@ module Rake
         ['--rakelibdir', '--rakelib', '-R RAKELIBDIR',
           "Auto-import any .rake files in RAKELIBDIR. (default is 'rakelib')",
           lambda { |value| options.rakelib = value.split(':') }
+        ],
+        ['--randomize[=SEED]', Integer, "Randomize the order of sibling prerequisites.",
+          lambda { |value|
+            MultiTask.class_eval { remove_method(:invoke_prerequisites) }
+            options.randomize = value || (srand ; srand % 10_000)
+            srand options.randomize
+            at_exit do
+              $stderr.puts "Run options: --randomize=#{options.randomize}"
+            end
+          }
         ],
         ['--require', '-r MODULE', "Require MODULE before executing rakefile.",
           lambda { |value|
@@ -584,6 +600,27 @@ module Rake
       re = /#{re.source}/i if windows?
 
       backtrace.find { |str| str =~ re } || ''
+    end
+
+    #
+    # Lazily pull in the parallelizing code
+    #
+    class Options < OpenStruct  # :nodoc:
+      attr_reader :threads
+      
+      def initialize
+        super
+        @threads = 1
+      end
+      
+      def threads=(n)
+        raise ArgumentError, "threads must be nonnegative" if n < 0
+        if require('rake/parallel')
+          Task.module_eval { include Parallel::TaskMixin }
+          Application.module_eval { include Parallel::ApplicationMixin }
+        end
+        @threads = n
+      end
     end
   end
 end

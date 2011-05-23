@@ -42,3 +42,22 @@ end
 $" << 'test/helper.rb'
 Test::Unit.run = true if Test::Unit.respond_to? :run=
 
+class ThreadSafeArray
+  def initialize
+    @mutex = Mutex.new
+    @array = Array.new
+  end
+
+  Array.public_instance_methods.each do |method_name|
+    unless method_name =~ %r!\A__! or method_name =~ %r!\A(object_)?id\Z!
+      # TODO: jettison 1.8.6; use define_method with |&block|
+      eval %{
+        def #{method_name}(*args, &block)
+          @mutex.synchronize {
+            @array.send('#{method_name}', *args, &block)
+          }
+        end
+      }
+    end
+  end
+end

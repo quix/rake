@@ -9,19 +9,12 @@ class TestRakeMultiTask < Rake::TestCase
     super
 
     Task.clear
-    @runs = Array.new
-    @mutex = Mutex.new
-  end
-
-  def add_run(obj)
-    @mutex.synchronize do
-      @runs << obj
-    end
+    @runs = ThreadSafeArray.new
   end
 
   def test_running_multitasks
-    task :a do 3.times do |i| add_run("A#{i}"); sleep 0.01; end end
-    task :b do 3.times do |i| add_run("B#{i}"); sleep 0.01;  end end
+    task :a do 3.times do |i| @runs << "A#{i}"; sleep 0.01; end end
+    task :b do 3.times do |i| @runs << "B#{i}"; sleep 0.01;  end end
     multitask :both => [:a, :b]
     Task[:both].invoke
     assert_equal 6, @runs.size
@@ -32,9 +25,9 @@ class TestRakeMultiTask < Rake::TestCase
   end
 
   def test_all_multitasks_wait_on_slow_prerequisites
-    task :slow do 3.times do |i| add_run("S#{i}"); sleep 0.05 end end
-    task :a => [:slow] do 3.times do |i| add_run("A#{i}"); sleep 0.01 end end
-    task :b => [:slow] do 3.times do |i| add_run("B#{i}"); sleep 0.01 end end
+    task :slow do 3.times do |i| @runs << "S#{i}"; sleep 0.05 end end
+    task :a => [:slow] do 3.times do |i| @runs << "A#{i}"; sleep 0.01 end end
+    task :b => [:slow] do 3.times do |i| @runs << "B#{i}"; sleep 0.01 end end
     multitask :both => [:a, :b]
     Task[:both].invoke
     assert_equal 9, @runs.size

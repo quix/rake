@@ -1,5 +1,7 @@
 module FileCreation
+  ANCIENT_FILE = 'testdata/anc'
   OLDFILE = "testdata/old"
+  MIDDLE_AGED_FILE = "testdata/mid"
   NEWFILE = "testdata/new"
 
   def create_timed_files(oldfile, *newfiles)
@@ -13,6 +15,16 @@ module FileCreation
 
     newfiles.each do |newfile|
       create_file(newfile, now)
+    end
+  end
+
+  def create_dispersed_timed_files(*files)
+    create_file(files.first)
+    (1...files.size).each do |index|
+      while create_file(files[index]) <= File.stat(files[index - 1]).mtime
+        sleep(0.1)
+        File.delete(files[index])
+      end
     end
   end
 

@@ -16,7 +16,7 @@ class TestRakeRules < Rake::TestCase
     super
 
     Task.clear
-    @runs = []
+    @runs = ThreadSafeArray.new
     FileUtils.mkdir_p 'testdata' # HACK use tmpdir
   end
 
@@ -314,7 +314,7 @@ class TestRakeRules < Rake::TestCase
   end
 
   def test_recursive_rules_will_work_as_long_as_they_terminate
-    actions = []
+    actions = ThreadSafeArray.new
     create_file("testdata/abc.xml")
     rule '.y' => '.xml' do actions << 'y' end
     rule '.c' => '.y' do actions << 'c'end

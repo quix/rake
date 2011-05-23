@@ -38,17 +38,24 @@ class TestRakeTask < Rake::TestCase
   end
 
   def test_invoke
-    runlist = []
+    runlist = ThreadSafeArray.new
     t1 = task(:t1 => [:t2, :t3]) { |t| runlist << t.name; 3321 }
     t2 = task(:t2) { |t| runlist << t.name }
     t3 = task(:t3) { |t| runlist << t.name }
     assert_equal ["t2", "t3"], t1.prerequisites
     t1.invoke
-    assert_equal ["t2", "t3", "t1"], runlist
+    if Rake.application.options.threads == 1
+      assert_equal ["t2", "t3", "t1"], runlist
+    else
+      assert_block {
+        ["t2", "t3", "t1"] == runlist or
+        ["t3", "t2", "t1"] == runlist
+      }
+    end
   end
 
   def test_invoke_with_circular_dependencies
-    runlist = []
+    runlist = ThreadSafeArray.new
     t1 = task(:t1 => [:t2]) { |t| runlist << t.name; 3321 }
     t2 = task(:t2 => [:t1]) { |t| runlist << t.name }
     assert_equal ["t2"], t1.prerequisites
@@ -62,7 +69,7 @@ class TestRakeTask < Rake::TestCase
 
   def test_dry_run_prevents_actions
     Rake.application.options.dryrun = true
-    runlist = []
+    runlist = ThreadSafeArray.new
     t1 = task(:t1) { |t| runlist << t.name; 3321 }
     _, err = capture_io { t1.invoke }
     assert_match(/execute .*t1/i, err)
@@ -86,16 +93,23 @@ class TestRakeTask < Rake::TestCase
   end
 
   def test_no_double_invoke
-    runlist = []
+    runlist = ThreadSafeArray.new
     t1 = task(:t1 => [:t2, :t3]) { |t| runlist << t.name; 3321 }
     t2 = task(:t2 => [:t3]) { |t| runlist << t.name }
     t3 = task(:t3) { |t| runlist << t.name }
     t1.invoke
-    assert_equal ["t3", "t2", "t1"], runlist
+    if Rake.application.options.threads == 1
+      assert_equal ["t3", "t2", "t1"], runlist
+    else
+      assert_block {
+        ["t2", "t3", "t1"] == runlist or
+        ["t3", "t2", "t1"] == runlist
+      }
+    end
   end
 
   def test_can_double_invoke_with_reenable
-    runlist = []
+    runlist = ThreadSafeArray.new
     t1 = task(:t1) { |t| runlist << t.name }
     t1.invoke
     t1.reenable
@@ -137,7 +151,7 @@ class TestRakeTask < Rake::TestCase
   end
 
   def test_multi_invocations
-    runs = []
+    runs = ThreadSafeArray.new
     p = proc do |t| runs << t.name end
     task({:t1=>[:t2,:t3]}, &p)
     task({:t2=>[:t3]}, &p)
@@ -268,4 +282,3 @@ class TestRakeTask < Rake::TestCase
     assert_equal "HI", t.comment
   end
 end
-

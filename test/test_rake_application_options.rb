@@ -368,6 +368,7 @@ class TestRakeApplicationOptions < Rake::TestCase
   def command_line(*options)
     options.each do |opt| ARGV << opt end
     @app = Rake::Application.new
+    @app.options.threads = Rake.application.options.threads
     def @app.exit(*args)
       throw :system_exit, :exit
     end

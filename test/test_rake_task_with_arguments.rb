@@ -69,7 +69,7 @@ class TestRakeTaskWithArguments < Rake::TestCase
   end
 
   def test_actions_of_various_arity_are_ok_with_args
-    notes = []
+    notes = ThreadSafeArray.new
     t = task(:t, :x) do
       notes << :a
     end
