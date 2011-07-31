@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>proto_rake.rdoc</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+            <div class='name'>proto_rake.rdoc</div>
+            <div class='paths'>
+              doc/proto_rake.rdoc
+            </div>
+            <div class='last-update'>
+              Last Update:
+              <span class='datetime'>2011-05-25 01:40:19 -0400</span>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <h1>Original Prototype <a href="../../classes/Rake.html">Rake</a></h1>
+                <p>
+                This is the original 100 line prototype rake program.
+                </p>
+                <hr style="height: 1px"></hr><pre>#!/usr/bin/env ruby&#x000A;&#x000A;require 'ftools'&#x000A;&#x000A;class Task&#x000A;  TASKS = Hash.new&#x000A;&#x000A;  attr_reader :prerequisites&#x000A;&#x000A;  def initialize(task_name)&#x000A;    @name = task_name&#x000A;    @prerequisites = []&#x000A;    @actions = []&#x000A;  end&#x000A;&#x000A;  def enhance(deps=nil, &amp;block)&#x000A;    @prerequisites |= deps if deps&#x000A;    @actions &lt;&lt; block if block_given?&#x000A;    self&#x000A;  end&#x000A;&#x000A;  def name&#x000A;    @name.to_s&#x000A;  end&#x000A;&#x000A;  def invoke&#x000A;    @prerequisites.each { |n| Task[n].invoke }&#x000A;    execute if needed?&#x000A;  end&#x000A;&#x000A;  def execute&#x000A;    return if @triggered&#x000A;    @triggered = true&#x000A;    @actions.collect { |act| result = act.call(self) }.last&#x000A;  end&#x000A;&#x000A;  def needed?&#x000A;    true&#x000A;  end&#x000A;&#x000A;  def timestamp&#x000A;    Time.now&#x000A;  end&#x000A;&#x000A;  class &lt;&lt; self&#x000A;    def [](task_name)&#x000A;      TASKS[intern(task_name)] or fail &quot;Don't know how to rake #{task_name}&quot;&#x000A;    end&#x000A;&#x000A;    def define_task(args, &amp;block)&#x000A;      case args&#x000A;      when Hash&#x000A;       fail &quot;Too Many Target Names: #{args.keys.join(' ')}&quot; if args.size &gt; 1&#x000A;       fail &quot;No Task Name Given&quot; if args.size &lt; 1&#x000A;       task_name = args.keys[0]&#x000A;       deps = args[task_name]&#x000A;      else&#x000A;       task_name = args&#x000A;       deps = []&#x000A;      end&#x000A;      deps = deps.collect {|d| intern(d) }&#x000A;      get(task_name).enhance(deps, &amp;block)&#x000A;    end&#x000A;&#x000A;    def get(task_name)&#x000A;      name = intern(task_name)&#x000A;      TASKS[name] ||= self.new(name)&#x000A;    end&#x000A;&#x000A;    def intern(task_name)&#x000A;      (Symbol === task_name) ? task_name : task_name.intern&#x000A;    end&#x000A;  end&#x000A;end&#x000A;&#x000A;class FileTask &lt; Task&#x000A;  def needed?&#x000A;    return true unless File.exist?(name)&#x000A;    latest_prereq = @prerequisites.collect{|n| Task[n].timestamp}.max&#x000A;    return false if latest_prereq.nil?&#x000A;    timestamp &lt; latest_prereq&#x000A;  end&#x000A;&#x000A;  def timestamp&#x000A;    File.new(name.to_s).mtime&#x000A;  end&#x000A;end&#x000A;&#x000A;def task(args, &amp;block)&#x000A;  Task.define_task(args, &amp;block)&#x000A;end&#x000A;&#x000A;def file(args, &amp;block)&#x000A;  FileTask.define_task(args, &amp;block)&#x000A;end&#x000A;&#x000A;def sys(cmd)&#x000A;  puts cmd&#x000A;  system(cmd) or fail &quot;Command Failed: [#{cmd}]&quot;&#x000A;end&#x000A;&#x000A;def rake&#x000A;  begin&#x000A;    here = Dir.pwd&#x000A;    while ! File.exist?(&quot;Rakefile&quot;)&#x000A;      Dir.chdir(&quot;..&quot;)&#x000A;      fail &quot;No Rakefile found&quot; if Dir.pwd == here&#x000A;      here = Dir.pwd&#x000A;    end&#x000A;    puts &quot;(in #{Dir.pwd})&quot;&#x000A;    load &quot;./Rakefile&quot;&#x000A;    ARGV.push(&quot;default&quot;) if ARGV.size == 0&#x000A;    ARGV.each { |task_name| Task[task_name].invoke }&#x000A;  rescue Exception =&gt; ex&#x000A;    puts &quot;rake aborted ... #{ex.message}&quot;&#x000A;    puts ex.backtrace.find {|str| str =~ /Rakefile/ } || &quot;&quot;&#x000A;  end&#x000A;end&#x000A;&#x000A;if __FILE__ == $0 then&#x000A;  rake&#x000A;end</pre>
+              </div>
+              <div id='context'>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

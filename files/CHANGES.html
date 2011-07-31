@@ -1,0 +1,1150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>CHANGES</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+            <div class='name'>CHANGES</div>
+            <div class='paths'>
+              CHANGES
+            </div>
+            <div class='last-update'>
+              Last Update:
+              <span class='datetime'>2011-07-31 09:37:39 -0400</span>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <h1><a href="../classes/Rake.html">Rake</a> Changelog</h1>
+                <h2>Version 0.9.1</h2>
+                <ul>
+                <li><p>
+                Added deprecation warnings to the <a href="../classes/Rake.html">Rake</a>
+                DSL methods.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.9.0</h2>
+                <ul>
+                <li><p>
+                <b>Incompatible</b> <b>change</b>: <a href="../classes/Rake.html">Rake</a>
+                DSL commands (&#8216;task&#8217;, &#8216;file&#8217;, etc.)  are no longer
+                private methods in Object.  If you need to call &#8216;task :xzy&#8217;
+                inside your class, include <a href="../classes/Rake/DSL.html">Rake::DSL</a>
+                into the class.  The DSL is still available at the top level scope (via the
+                top level object which extends <a
+                href="../classes/Rake/DSL.html">Rake::DSL</a>).
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now warns when the deprecated
+                :needs syntax used.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> history is now UTF-8 encoded.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now uses case-insensitive
+                comparisons to find the Rakefile on Windows. Based on patch by Roger Pack.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now requires (instead of loads)
+                files in the test task.  Patch by Cezary Baginski.
+                </p>
+                </li>
+                <li><p>
+                Fixed typos.  Patches by Sean Scot August Moon and R.T. Lechow.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now prints the Rakefile directory
+                only when it&#8217;s different from the current directory.  Patch by Alex
+                Chaffee.
+                </p>
+                </li>
+                <li><p>
+                Improved rakefile_location discovery on Windows.  Patch by James Tucker.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now recognizes &#8220;Windows
+                Server&#8221; as a windows system.  Patch by Matthias Lüdtke
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake/RDocTask.html">Rake::RDocTask</a> is deprecated. 
+                Use RDoc::Task from RDoc 2.4.2+ (require &#8216;rdoc/task&#8217;)
+                </p>
+                </li>
+                <li><p>
+                Rake::GemPackageTask is deprecated.  Use Gem::PackageTask (require
+                &#8216;rubygems/package_task&#8217;)
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> now outputs various messages to
+                $stderr instead of $stdout.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> no longer emits warnings for
+                Config.  Patch by Santiago Pastorino.
+                </p>
+                </li>
+                <li><p>
+                Split rake.rb into individual files.
+                </p>
+                </li>
+                <li><p>
+                Support for the &#8212;where (-W) flag for showing where a task is defined.
+                </p>
+                </li>
+                <li><p>
+                Fixed quoting in test task. (<a
+                href="http://onestepback.org/redmine/issues/show/44">onestepback.org/redmine/issues/show/44</a>,
+                <a
+                href="http://www.pivotaltracker.com/story/show/1223138">www.pivotaltracker.com/story/show/1223138</a>)
+                </p>
+                </li>
+                <li><p>
+                Fixed the silent option parsing problem. (<a
+                href="http://onestepback.org/redmine/issues/show/47">onestepback.org/redmine/issues/show/47</a>)
+                </p>
+                </li>
+                <li><p>
+                Fixed :verbose=>false flag on sh and ruby commands.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> command line options may be given
+                by default in a RAKEOPT environment variable.
+                </p>
+                </li>
+                <li><p>
+                Errors in <a href="../classes/Rake.html">Rake</a> will now display the task
+                invocation chain in effect at the time of the error.
+                </p>
+                </li>
+                <li><p>
+                Accepted change by warnickr to not expand test patterns in shell (allowing
+                more files in the test suite).
+                </p>
+                </li>
+                <li><p>
+                Fixed that file tasks did not perform prereq lookups in scope (Redmine
+                #57).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.7</h2>
+                <ul>
+                <li><p>
+                Fixed EXEEXT for JRuby on windows.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.6</h2>
+                <ul>
+                <li><p>
+                Minor fixes to the RDoc generation (removed dependency on darkfish and
+                removed inline source option).
+                </p>
+                </li>
+                </ul>
+                <h2>PreVersion 0.8.6</h2>
+                <ul>
+                <li><p>
+                Now allow # comments to comment a task definition.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.5</h2>
+                <ul>
+                <li><p>
+                Better support for the system command on Windows.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.4</h2>
+                <ul>
+                <li><p>
+                Preserve case when locating rakefiles (patch from James
+                </p>
+                <ol style="display: upper-alpha">
+                <li><p>
+                Lawrence/quix)
+                </p>
+                </li>
+                </ol>
+                </li>
+                <li><p>
+                Better support for windows paths in the test task (patch from Simon
+                Chiang/bahuvrihi)
+                </p>
+                </li>
+                <li><p>
+                Windows system dir search order is now: HOME, HOMEDRIVE + HOMEPATH,
+                APPDATA, USERPROFILE (patch from Luis Lavena)
+                </p>
+                </li>
+                <li><p>
+                MingGW is now recognized as a windows platform.  (patch from Luis Lavena)
+                </p>
+                </li>
+                <li><p>
+                Numerous fixes to the windows test suite (patch from Luis Lavena).
+                </p>
+                </li>
+                <li><p>
+                Improved Rakefile case insensitivity testing (patch from Luis Lavena).
+                </p>
+                </li>
+                <li><p>
+                Fixed stray ARGV option problem that was interfering with
+                Test::Unit::Runner.
+                </p>
+                </li>
+                <li><p>
+                Fixed default verbose mode (was accidently changed to false).
+                </p>
+                </li>
+                <li><p>
+                Removed reference to manage_gem to fix the warning produced by the gem
+                package task.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.3</h2>
+                <ul>
+                <li><p>
+                Enhanced the system directory detection in windows. We now check
+                HOMEDRIVE/HOMEPATH and USERPROFILE if APPDATA isn&#8217;t found. (Patch
+                supplied by James Tucker). <a href="../classes/Rake.html">Rake</a> no long
+                aborts if it can&#8217;t find the directory.
+                </p>
+                </li>
+                <li><p>
+                Added fix to handle ruby installations in directories with spaces in their
+                name.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2</h2>
+                <ul>
+                <li><p>
+                Fixed bug in package task so that it will include the subdir directory in
+                the package for testing. (Bug found by Adam Majer)
+                </p>
+                </li>
+                <li><p>
+                Added ENV var to rakefile to prevent OS X from including extended attribute
+                junk in a tar file. (Bug found by Adam Majer)
+                </p>
+                </li>
+                <li><p>
+                Fixed filename dependency order bug in test_inspect_pending and
+                test_to_s_pending. (Bug found by Adam Majer)
+                </p>
+                </li>
+                <li><p>
+                Fixed check for file utils options to make them immune to the symbol/string
+                differences. (Patch supplied by Edwin Pratomo)
+                </p>
+                </li>
+                <li><p>
+                Fixed bug with rules involving multiple source (Patch supplied by Emanuel
+                Indermühle)
+                </p>
+                </li>
+                <li><p>
+                Switched from getoptlong to optparse (patches supplied by Edwin Pratomo)
+                </p>
+                </li>
+                <li><p>
+                The -T option will now attempt to dynamically sense the size of the
+                terminal.  RAKE_COLUMNS will override any dynamic sensing.
+                </p>
+                </li>
+                <li><p>
+                FileList#clone and FileList#dup have better sematics w.r.t. taint and
+                freeze.
+                </p>
+                </li>
+                <li><p>
+                Added ability clear prerequisites, and/or actions from an existing task.
+                </p>
+                </li>
+                <li><p>
+                Added the ability to reenable a task to be invoked a second time.
+                </p>
+                </li>
+                <li><p>
+                Changed RDoc test task to have no default template. This makes it easier
+                for the tempate to pick up the template from the environment.
+                </p>
+                </li>
+                <li><p>
+                Changed from using Mutex to Monitor. Evidently Mutex causes thread join
+                errors when Ruby is compiled with -disable-pthreads. (Patch supplied by
+                Ittay Dror)
+                </p>
+                </li>
+                <li><p>
+                Fixed bug in makefile parser that had problems with extra spaces in file
+                task names. (Patch supplied by Ittay Dror)
+                </p>
+                </li>
+                <li><p>
+                Added a performance patch for reading large makefile dependency files.
+                (Patch supplied by Ittay Dror)
+                </p>
+                </li>
+                <li><p>
+                Default values for task arguments can easily be specified with the
+                :with_defaults method. (Idea for default argument merging supplied by (Adam
+                Q. Salter)
+                </p>
+                </li>
+                <li><p>
+                The -T output will only self-truncate if the output is a tty. However, if
+                RAKE_COLUMNS is explicitly set, it will be honored in any case. (Patch
+                provided by Gavin Stark).
+                </p>
+                </li>
+                <li><p>
+                Numerous fixes for running under windows. A big thanks to Bheeshmar
+                Redheendran for spending a good part of the afternoon at the Lonestar Ruby
+                Conference to help me work out these issues.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.1</h2>
+                <ul>
+                <li><p>
+                Removed requires on parsedate.rb (in Ftptools)
+                </p>
+                </li>
+                <li><p>
+                Removed ftools from rake.rb.  Made it options in sys.rb
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.0</h2>
+                <ul>
+                <li><p>
+                Added task parameters (e.g. &#8220;rake build[version7]&#8221;)
+                </p>
+                </li>
+                <li><p>
+                Made task parameters passable to prerequisites.
+                </p>
+                </li>
+                <li><p>
+                Comments are limited to 80 columns or so (suggested by Jamis Buck).
+                </p>
+                </li>
+                <li><p>
+                Added -D to display full comments (suggested by Jamis Buck).
+                </p>
+                </li>
+                <li><p>
+                The rake program will set the status value used in any explicit exit(n)
+                calls. (patch provided by Stephen Touset)
+                </p>
+                </li>
+                <li><p>
+                Fixed error in functional tests that were not including session (and
+                silently skipping the functionl tests.
+                </p>
+                </li>
+                <li><p>
+                Removed &#8212;usage and make -h the same as -H.
+                </p>
+                </li>
+                <li><p>
+                Make a prettier inspect for tasks.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.7.3</h2>
+                <ul>
+                <li><p>
+                Added existing and existing! methods to <a
+                href="../classes/Rake/FileList.html">FileList</a>
+                </p>
+                </li>
+                <li><p>
+                FileLists now claim to be Arrays (via is_a?) to get better support from the
+                FileUtil module.
+                </p>
+                </li>
+                <li><p>
+                Added init and top_level for custom rake applications.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.7.2</h2>
+                <ul>
+                <li><p>
+                Error messages are now send to stderr rather than stdout (from Payton
+                Quackenbush).
+                </p>
+                </li>
+                <li><p>
+                Better error handling on invalid command line arguments (from Payton
+                Quackenbush).
+                </p>
+                </li>
+                <li><p>
+                Added rcov task and updated unit testing for better code coverage.
+                </p>
+                </li>
+                <li><p>
+                Fixed some bugs where the application object was going to the global
+                appliation instead of using its own data.
+                </p>
+                </li>
+                <li><p>
+                Added square and curly bracket patterns to <a
+                href="../classes/Rake/FileList.html#method-i-include">FileList#include</a>
+                (Tilman Sauerbeck).
+                </p>
+                </li>
+                <li><p>
+                Added plain filename support to rule dependents (suggested by Nobu Nakada).
+                </p>
+                </li>
+                <li><p>
+                Added pathmap support to rule dependents.
+                </p>
+                </li>
+                <li><p>
+                Added a &#8216;tasks&#8217; method to a namespace to get a list of tasks
+                associated with the namespace.
+                </p>
+                </li>
+                <li><p>
+                Fixed the method name leak from <a
+                href="../classes/FileUtils.html">FileUtils</a> (bug found by Glenn
+                Vanderburg).
+                </p>
+                </li>
+                <li><p>
+                Added rake_extension to handle detection of extension collisions.
+                </p>
+                </li>
+                <li><p>
+                Added test for noop, bad_option and verbose flags to sh command.
+                </p>
+                </li>
+                <li><p>
+                Removed dependency on internal fu_xxx functions from <a
+                href="../classes/FileUtils.html">FileUtils</a>.
+                </p>
+                </li>
+                <li><p>
+                Added a &#8216;shame&#8217; task to the Rakefile.
+                </p>
+                </li>
+                <li><p>
+                Added tar_command and zip_command options to the Package task.
+                </p>
+                </li>
+                <li><p>
+                Added a description to the gem task in GemPackageTask.
+                </p>
+                </li>
+                <li><p>
+                Fixed a bug when rules have multiple prerequisites (patch by Joel
+                VanderWerf)
+                </p>
+                </li>
+                <li><p>
+                Added a protected &#8216;require &#8220;rubygems&#8221;&#8217; to
+                test/test_application to unbreak cruisecontrol.rb.
+                </p>
+                </li>
+                <li><p>
+                Added the handful of <a
+                href="../classes/Rake/FileUtilsExt.html">RakeFileUtils</a> to the private
+                method as well.
+                </p>
+                </li>
+                <li><p>
+                Added block based exclusion.
+                </p>
+                </li>
+                <li><p>
+                The clean task will no longer delete &#8216;core&#8217; if it is a
+                directory.
+                </p>
+                </li>
+                <li><p>
+                Removed rake_dup.  Now we just simply rescue a bad dup.
+                </p>
+                </li>
+                <li><p>
+                Refactored the <a href="../classes/Rake/FileList.html">FileList</a> reject
+                logic to remove duplication.
+                </p>
+                </li>
+                <li><p>
+                Removed if <em>FILE</em> at the end of the rake.rb file.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.7.1</h2>
+                <ul>
+                <li><p>
+                Added optional filter parameter to the &#8212;tasks command line option.
+                </p>
+                </li>
+                <li><p>
+                Added flatten to allow rule transform procs to return lists of prereqs
+                (Joel VanderWerf provided patch).
+                </p>
+                </li>
+                <li><p>
+                Added pathmap to <a href="../classes/String.html">String</a> and <a
+                href="../classes/Rake/FileList.html">FileList</a>.
+                </p>
+                </li>
+                <li><p>
+                The -r option will now load .rake files (but a straight require
+                doesn&#8217;t yet).  NOTE: This is experimental &#8230; it may be
+                discontinued.
+                </p>
+                </li>
+                <li><p>
+                The -f option without a value will disable the search for a Rakefile.  The
+                assumption is that the -r files are adequate.
+                </p>
+                </li>
+                <li><p>
+                Fixed the safe_ln function to fall back to cp in more error scenarios.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.7.0</h2>
+                <ul>
+                <li><p>
+                Added Rake.original_dir to return the original starting directory of the
+                rake application.
+                </p>
+                </li>
+                <li><p>
+                Added safe_ln support for openAFS (from Ludvig Omholt).
+                </p>
+                </li>
+                <li><p>
+                Added &#8212;trace reminder on short exception messages (David Heinemeier
+                Hansson suggestion).
+                </p>
+                </li>
+                <li><p>
+                Added multitask declaration that executes prerequisites in parallel. (Doug
+                Young providied an initial implementation).
+                </p>
+                </li>
+                <li><p>
+                Fixed missing_const hack to be compatible with Rails. (Jamis Buck supplied
+                test case).
+                </p>
+                </li>
+                <li><p>
+                Made the RDoc task default to internal (in-process) RDoc formatting. The
+                old behavior is still available by setting the <tt>external</tt> flag to
+                true.
+                </p>
+                </li>
+                <li><p>
+                Rakefiles are now loaded with the expanded path to prevent accidental
+                polution from the Ruby load path.
+                </p>
+                </li>
+                <li><p>
+                The <tt>namespace</tt> command now returns a NameSpace object that can be
+                used to lookup tasks defined in that namespace.  This allows for better
+                anonymous namespace behavior.
+                </p>
+                </li>
+                <li><p>
+                Task objects my now be used in prerequisite lists directly.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.6.1</h2>
+                <ul>
+                <li><p>
+                Rebuilt 0.6.0 gem without signing.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.6.0</h2>
+                <ul>
+                <li><p>
+                Fixed file creation bug in the unit tests (caused infinite loop on
+                windows).
+                </p>
+                </li>
+                <li><p>
+                Fixed bug where session based functional tests were run under windows.
+                </p>
+                </li>
+                <li><p>
+                Fixed bug in directory tasks so that updating a directory will not
+                retrigger file tasks depending on the directory (see FileCreationTask and
+                EarlyTime).
+                </p>
+                </li>
+                <li><p>
+                Added egrep to <a href="../classes/Rake/FileList.html">FileList</a>
+                </p>
+                </li>
+                <li><p>
+                ruby command now runs same ruby version as rake.
+                </p>
+                </li>
+                <li><p>
+                Added investigation to task object. (suggested by Martin Fowler)
+                </p>
+                </li>
+                <li><p>
+                Added ruby_opts to the test task to allow arbitrary ruby options to be
+                passed to the test script. (Greg Fast)
+                </p>
+                </li>
+                <li><p>
+                Fixed the test loader to ignore options. (Greg Fast)
+                </p>
+                </li>
+                <li><p>
+                Moved Task, FileTask, FileCreationTask and <a
+                href="../classes/Rake/Application.html">RakeApp</a> into the <a
+                href="../classes/Rake.html">Rake</a> module namespace.  Old style namespace
+                behavior can be invoked via the &#8212;classic-namespace option. (requested
+                by Kelly Felkins).
+                </p>
+                </li>
+                <li><p>
+                GemTask is now sensitive to the gem platform (Masao Mutoh).
+                </p>
+                </li>
+                <li><p>
+                A non-existing file prerequisite will no longer cause an exception (Philipp
+                Neubeck).
+                </p>
+                </li>
+                <li><p>
+                Multiple prerequisites on <a href="../classes/Rake.html">Rake</a> rules now
+                allowed (initial patch supplied by Stuart Jansen).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.5.4</h2>
+                <ul>
+                <li><p>
+                Added double quotes to the test runner.
+                </p>
+                </li>
+                <li><p>
+                Added .svn to default ignore list.
+                </p>
+                </li>
+                <li><p>
+                Updated <a
+                href="../classes/Rake/FileList.html#method-i-include">FileList#include</a>
+                to support nested arrays and filelists.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.5.3</h2>
+                <ul>
+                <li><p>
+                Added support for importing Rakefile and other dependencies.
+                </p>
+                </li>
+                <li><p>
+                Fixed bug so that now rules can chain off of existing tasks as well as
+                existing files.
+                </p>
+                </li>
+                <li><p>
+                Fixed verbose flag bug in the testing task.  Shortened some failure
+                messages.
+                </p>
+                </li>
+                <li><p>
+                Make <a href="../classes/FileUtils.html">FileUtils</a> methods private at
+                the top level module to avoid accidental method leaking into other objects.
+                </p>
+                </li>
+                <li><p>
+                Added test loader option to test task.  &#8220;testrb&#8221; is no longer
+                the default test loader.  It is now eating syntax errors that should halt
+                the unit tests.
+                </p>
+                </li>
+                <li><p>
+                Revamped <a href="../classes/Rake/FileList.html">FileList</a> so that it
+                works more like and array (addressed flatten bug).  Added many tests around
+                file list.
+                </p>
+                </li>
+                <li><p>
+                Added <tt>ext</tt> method to both <a
+                href="../classes/String.html">String</a> and <a
+                href="../classes/Rake/FileList.html">FileList</a>.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.5.0</h2>
+                <ul>
+                <li><p>
+                Fixed documentation that was lacking the <a
+                href="../classes/Rake.html">Rake</a> module name (Tilman Sauerbeck).
+                </p>
+                </li>
+                <li><p>
+                Added tar.gz and tar.bz2 support to package task (Tilman Sauerbeck).
+                </p>
+                </li>
+                <li><p>
+                Recursive rules are now supported (Tilman Sauerbeck).
+                </p>
+                </li>
+                <li><p>
+                Added warning option for the Test Task (requested by Eric Hodel).
+                </p>
+                </li>
+                <li><p>
+                The jamis rdoc template is only used if it exists.
+                </p>
+                </li>
+                <li><p>
+                Added fix for Ruby 1.8.2 test/unit and rails problem.
+                </p>
+                </li>
+                <li><p>
+                Added contributed rake man file (Jani Monoses).
+                </p>
+                </li>
+                <li><p>
+                Added Brian Candler&#8217;s fix for problems in &#8212;trace and
+                &#8212;dry-run mode.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.15</h2>
+                <ul>
+                <li><p>
+                Fixed a bug that prevented the TESTOPTS flag from working with the revised
+                for 1.8.2 test task.
+                </p>
+                </li>
+                <li><p>
+                Updated the docs on &#8212;trace to indicate that it also enables a full
+                backtrace on errors.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.14</h2>
+                <ul>
+                <li><p>
+                Modified the TestTask to workaround the Ruby 1.8.2 change in autoexecuting
+                unit tests.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.13</h2>
+                <ul>
+                <li><p>
+                Fixed the dry-run flag so it is operating again.
+                </p>
+                </li>
+                <li><p>
+                Multiple arguments to sh and ruby commands will not be interpreted by the
+                shell (patch provided by Jonathan Paisley).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.12</h2>
+                <ul>
+                <li><p>
+                Added &#8212;silent (-s) to suppress the (in directory) rake message.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.11</h2>
+                <ul>
+                <li><p>
+                Changed the &#8220;don&#8217;t know how to rake&#8221; message (finally)
+                </p>
+                </li>
+                <li><p>
+                Changes references to a literal &#8220;Rakefile&#8221; to reference the
+                global variable $rakefile (which contains the actual name of the rakefile).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.10</h2>
+                <ul>
+                <li><p>
+                Added block support to the &#8220;sh&#8221; command, allowing users to take
+                special actions on the result of the system call.  E.g.
+                </p>
+                <pre>sh &quot;shell_command&quot; do |ok, res|&#x000A;  puts &quot;Program returned #{res.exitstatus}&quot; if ! ok&#x000A;end</pre>
+                </li>
+                </ul>
+                <h2>Version 0.4.9</h2>
+                <ul>
+                <li><p>
+                Switched to Jamis Buck&#8217;s RDoc template.
+                </p>
+                </li>
+                <li><p>
+                Removed autorequire from Rake&#8217;s gem spec.  This prevents the <a
+                href="../classes/Rake.html">Rake</a> libraries from loading while using
+                rails.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.8</h2>
+                <ul>
+                <li><p>
+                Added support for .rb versions of Rakefile.
+                </p>
+                </li>
+                <li><p>
+                Removed \n&#8217;s from test task.
+                </p>
+                </li>
+                <li><p>
+                Fixed Ruby 1.9 compatibility issue with <a
+                href="../classes/Rake/FileList.html">FileList</a>.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.7</h2>
+                <ul>
+                <li><p>
+                Fixed problem in <a href="../classes/Rake/FileList.html">FileList</a> that
+                caused Ruby 1.9 to go into infinite recursion.  Since to_a was removed from
+                Object, it does not need to added back into the list of methods to rewrite
+                in <a href="../classes/Rake/FileList.html">FileList</a>.  (Thanks to Kent
+                Sibilev for pointing this out).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.6</h2>
+                <ul>
+                <li><p>
+                Removed test version of ln in <a
+                href="../classes/FileUtils.html">FileUtils</a> that prevented safe_ln from
+                using ln.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.5</h2>
+                <ul>
+                <li><p>
+                Upgraded comments in TestTask.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake/FileList.html">FileList</a> to_s and inspect now
+                automatically resolve pending changes.
+                </p>
+                </li>
+                <li><p>
+                <a
+                href="../classes/Rake/FileList.html#method-i-exclude">FileList#exclude</a>
+                properly returns the <a href="../classes/Rake/FileList.html">FileList</a>.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.4</h2>
+                <ul>
+                <li><p>
+                Fixed initialization problem with @comment.
+                </p>
+                </li>
+                <li><p>
+                Now using multi -r technique in TestTask.  Switch Rakefile back to using
+                the built-in test task macros because the rake runtime is no longer needed.
+                </p>
+                </li>
+                <li><p>
+                Added &#8216;TEST=filename&#8217; and &#8216;TESTOPTS=options&#8217; to the
+                Test Task macros.
+                </p>
+                </li>
+                <li><p>
+                Allow a <tt>test_files</tt> attribute in test tasks.  This allows more
+                flexibility in specifying test files.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.3</h2>
+                <ul>
+                <li><p>
+                Fixed Comment leakage.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.2</h2>
+                <ul>
+                <li><p>
+                Added safe_ln that falls back to a copy if a file link is not supported.
+                </p>
+                </li>
+                <li><p>
+                Package builder now uses safe_ln.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.1</h2>
+                <ul>
+                <li><p>
+                Task comments are now additive, combined with &#8220;/&#8221;.
+                </p>
+                </li>
+                <li><p>
+                Works with (soon to be released) rubygems 0.6.2 (or 0.7.0)
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.4.0</h2>
+                <ul>
+                <li><p>
+                <a href="../classes/Rake/FileList.html">FileList</a> now uses deferred
+                loading.  The file system is not searched until the first call that needs
+                the file names.
+                </p>
+                </li>
+                <li><p>
+                VAR=VALUE options are now accepted on the command line and are treated like
+                environment variables.  The values may be tested in a Rakefile by
+                referencing ENV[&#8216;VAR&#8217;].
+                </p>
+                </li>
+                <li><p>
+                File.mtime is now used (instead of File.new().mtime).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.3.2.x</h2>
+                <ul>
+                <li><p>
+                Removed some hidden dependencies on rubygems.  Tests now will test gems
+                only if they are installed.
+                </p>
+                </li>
+                <li><p>
+                Removed Sys from some example files.  I believe that is that last reference
+                to Sys outside of the contrib area.
+                </p>
+                </li>
+                <li><p>
+                Updated all copyright notices to include 2004.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.3.2</h2>
+                <ul>
+                <li><p>
+                GEM Installation now works with the application stub.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.3.1</h2>
+                <ul>
+                <li><p>
+                FileLists now automatically ignore CVS, .bak, !
+                </p>
+                </li>
+                <li><p>
+                GEM Installation now works.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.3.0</h2>
+                <p>
+                Promoted 0.2.10.
+                </p>
+                <h2>Version 0.2.10</h2>
+                <p>
+                General
+                </p>
+                <ul>
+                <li><p>
+                Added title to Rake&#8217;s rdocs
+                </p>
+                </li>
+                <li><p>
+                Contrib packages are no longer included in the documentation.
+                </p>
+                </li>
+                </ul>
+                <p>
+                RDoc Issues
+                </p>
+                <ul>
+                <li><p>
+                Removed default for the &#8217;&#8212;main&#8217; option
+                </p>
+                </li>
+                <li><p>
+                Fixed rendering of the rdoc options
+                </p>
+                </li>
+                <li><p>
+                Fixed clean/clobber confusion with rerdoc
+                </p>
+                </li>
+                <li><p>
+                &#8216;title&#8217; attribute added
+                </p>
+                </li>
+                </ul>
+                <p>
+                Package Task Library Issues
+                </p>
+                <ul>
+                <li><p>
+                Version (or explicit :noversion) is required.
+                </p>
+                </li>
+                <li><p>
+                <tt>package_file</tt> attribute is now writable
+                </p>
+                </li>
+                </ul>
+                <p>
+                <a href="../classes/Rake/FileList.html">FileList</a> Issues
+                </p>
+                <ul>
+                <li><p>
+                Dropped bang version of exclude.  Now using ant-like include/exclude
+                semantics.
+                </p>
+                </li>
+                <li><p>
+                Enabled the &#8220;yield self&#8221; idiom in FileList#initialize.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.9</h2>
+                <p>
+                This version contains numerous changes as the RubyConf.new(2003)
+                presentation was being prepared.  The changes include:
+                </p>
+                <ul>
+                <li><p>
+                The monolithic rubyapp task library is in the process of being dropped in
+                favor of lighter weight task libraries.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.7</h2>
+                <ul>
+                <li><p>
+                Added &#8220;desc&#8221; for task descriptions.
+                </p>
+                </li>
+                <li><p>
+                -T will now display tasks with descriptions.
+                </p>
+                </li>
+                <li><p>
+                -P will display tasks and prerequisites.
+                </p>
+                </li>
+                <li><p>
+                Dropped the Sys module in favor of the 1.8.x <a
+                href="../classes/FileUtils.html">FileUtils</a> module.  Sys is still
+                supported in the contrib area.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.6</h2>
+                <ul>
+                <li><p>
+                Moved to RubyForge
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.5</h2>
+                <ul>
+                <li><p>
+                Switched to standard ruby app builder.
+                </p>
+                </li>
+                <li><p>
+                Added no_match option to file matcher.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.4</h2>
+                <ul>
+                <li><p>
+                Fixed indir, which neglected to actually change directories.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.2.3</h2>
+                <ul>
+                <li><p>
+                Added rake module for a help target
+                </p>
+                </li>
+                <li><p>
+                Added &#8216;for_files&#8217; to Sys
+                </p>
+                </li>
+                <li><p>
+                Added a $rakefile constant
+                </p>
+                </li>
+                <li><p>
+                Added test for selecting proper rule with multiple targets.
+                </p>
+                </li>
+                </ul>
+              </div>
+              <div id='context'>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

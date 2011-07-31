@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>CHANGES-drake</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+            <div class='name'>CHANGES-drake</div>
+            <div class='paths'>
+              CHANGES-drake
+            </div>
+            <div class='last-update'>
+              Last Update:
+              <span class='datetime'>2011-07-31 09:56:04 -0400</span>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <h1>Drake Changelog</h1>
+                <h2>Version 0.9.1.0.3.0</h2>
+                <ul>
+                <li><p>
+                update from mainline branch 0.9.1 
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.9.0.0.3.0</h2>
+                <ul>
+                <li><p>
+                option -j without a value now allowed == no limit on number of threads
+                </p>
+                </li>
+                <li><p>
+                improved &#8212;randomize[=SEED] option: auto-generates SEED if none given
+                (mirrors the randomizing functionality of minitest).
+                </p>
+                </li>
+                <li><p>
+                &#8212;version now reports &#8216;drake&#8217;
+                </p>
+                </li>
+                <li><p>
+                update from mainline branch
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.7.0.2.3</h2>
+                <ul>
+                <li><p>
+                update from mainline branch
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.4.1.2.1</h2>
+                <ul>
+                <li><p>
+                update dependency >= comp_tree-0.7.3
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.4.1.2.0</h2>
+                <ul>
+                <li><p>
+                github master now represents mainline-merge-candidate branch.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.4.1.0.16-18</h2>
+                <ul>
+                <li><p>
+                Merge with latest comp_tree.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.4.1.0.15</h2>
+                <ul>
+                <li><p>
+                Merge with mainline rake-0.8.4.1.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.3.1.0.14</h2>
+                <ul>
+                <li><p>
+                Merge with mainline rake-0.8.3.1.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.13</h2>
+                <ul>
+                <li><p>
+                Optimized construction of computation tree.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.12</h2>
+                <ul>
+                <li><p>
+                Handle multiple manual invocations of Task#invoke better.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.11</h2>
+                <ul>
+                <li><p>
+                Remove drb code from this CompTree branch (reduce load time).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.10</h2>
+                <ul>
+                <li><p>
+                Parents must be marked as needed during dry run for parallel tasks.
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.9</h2>
+                <ul>
+                <li><p>
+                &#8212;randomize takes a string (seeds with String#hash).
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.7</h2>
+                <ul>
+                <li><p>
+                new &#8212;rand option, suggested by Thomas Sawyer.
+                </p>
+                </li>
+                <li><p>
+                merged latest cleaned-up comp_tree
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.6</h2>
+                <ul>
+                <li><p>
+                Restored original &#8216;multitask&#8217; behavior when -j1 (default)
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.2.1.0.4</h2>
+                <ul>
+                <li><p>
+                Fix 21922: prereqs were not namespace-qualified
+                </p>
+                </li>
+                <li><p>
+                Removed subpackager: no more generated files
+                </p>
+                </li>
+                </ul>
+                <h2>Version 0.8.11.0.1</h2>
+                <ul>
+                <li><p>
+                Initial release.
+                </p>
+                </li>
+                </ul>
+              </div>
+              <div id='context'>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

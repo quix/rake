@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>parallel.rdoc</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+            <div class='name'>parallel.rdoc</div>
+            <div class='paths'>
+              doc/parallel.rdoc
+            </div>
+            <div class='last-update'>
+              Last Update:
+              <span class='datetime'>2011-07-31 09:50:50 -0400</span>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <h1>Automatically Running Tasks in Parallel</h1>
+                <p>
+                Consider these task definitions:
+                </p>
+                <pre>task :default =&gt; [:a, :b]&#x000A;task :a =&gt; [:x, :y]&#x000A;task :b</pre>
+                <p>
+                To create the dependency graph, let nodes represent tasks and child nodes
+                represent prerequisites,
+                </p>
+                <pre>   default&#x000A;     / \&#x000A;    /   \&#x000A;   a     b&#x000A;  / \&#x000A; /   \&#x000A;x     y</pre>
+                <p>
+                Notice the dependency graph already contains the information necessary for
+                parallelizing tasks.  In particular, tasks <em>x</em>, <em>y</em>, and
+                <em>b</em> may run in parallel.  When <em>x</em> and <em>y</em> are
+                finished, <em>a</em> and <em>b</em> may run in parallel.
+                </p>
+                <p>
+                So why, then, does <tt>multitask</tt> exist?  <a
+                href="../../classes/Rake.html">Rake</a> already has the information it
+                needs &#8212; why must we provide it a second time?  The short answer is
+                probably that <tt>multitask</tt> was easy to implement, while dynamically
+                finding parallelizable tasks and safely executing them in separate threads
+                requires a little more code.
+                </p>
+                <p>
+                <a href="../../classes/Rake.html">Rake</a> now supports the <tt>-j</tt>
+                option which does exactly this. To run up to three tasks in parallel,
+                </p>
+                <pre>% rake -j3</pre>
+                <p>
+                or equivalently,
+                </p>
+                <pre>% rake --threads 3</pre>
+                <p>
+                Without a number,
+                </p>
+                <pre>% rake -j</pre>
+                <p>
+                means as many tasks as possible will run in parallel: the dependency graph
+                alone determines the number.
+                </p>
+                <h2>A Note on Dependencies</h2>
+                <p>
+                Without <tt>multitask</tt> or <tt>-j</tt>, <a
+                href="../../classes/Rake.html">Rake</a> invokes tasks in a predetermined
+                order. Rakefile authors inevitably come to rely on this order. Even though
+                their dependency graph may be wide and hierarchical, the only graph which
+                has ever been tested is linear: one which results from visiting each node
+                in sequence.
+                </p>
+                <p>
+                Consider
+                </p>
+                <pre>task :a =&gt; [:x, :y, :z]</pre>
+                <p>
+                When <a href="../../classes/Rake.html">Rake</a> runs in single-threaded
+                mode (the default), tasks <em>x</em>,<em>y</em>,<em>z</em> will be invoked
+                <em>in that order</em> before <em>a</em> is invoked, assuming no other
+                rules exist involving these tasks. However with <tt>-j</tt> <em>N</em> for
+                <em>N</em> > 1, one should not expect any particular order of execution.
+                Since there is no dependency specified between
+                <em>x</em>,<em>y</em>,<em>z</em> above, <a
+                href="../../classes/Rake.html">Rake</a> is free to run them in any order.
+                </p>
+                <p>
+                The problem of underspecified dependencies plagues Makefiles as well (GNU
+                make has supported <tt>-j</tt> for some time).
+                </p>
+                <h2>Migrating to <tt>-j</tt></h2>
+                <p>
+                Suppose <tt>-j</tt> produces errors from insufficient dependencies in your
+                Rakefile. Do you want to bother fixing them? If you are satisfied with your
+                build time then there is really no reason to use <tt>-j</tt>.
+                </p>
+                <p>
+                If on the other hand your build takes twenty minutes to complete, you may
+                be interested in getting the full dependency graph correct in order to take
+                advantage of multiple CPUs or cores.
+                </p>
+                <p>
+                Though <a href="../../classes/Rake.html">Rake</a> cannot fathom what
+                <em>you</em> mean by a correct dependency, there is a tool available which
+                may help you get closer to saying what you mean:
+                </p>
+                <pre>% rake --randomize[=SEED]</pre>
+                <p>
+                where the optional SEED is an integer. This will randomize the order of
+                sibling prerequisites for each task. Runs with the same SEED will produce
+                the same sibling permutations. If no SEED is given then one will be
+                generated. SEED is reported when <a href="../../classes/Rake.html">Rake</a>
+                exits.
+                </p>
+                <p>
+                Though this option may cause an error due to underspecified dependencies,
+                with SEED at least it will be an error which is exactly the same on each
+                run.  In addition you&#8217;ll have the major debugging advantage of using
+                a single thread.
+                </p>
+                <h2>Task#invoke inside Task#invoke</h2>
+                <p>
+                Parallelizing tasks means surrendering control over the micro-management of
+                their execution. Manually invoking tasks inside other tasks is rather
+                contrary to this notion, throwing a monkey wrench into the system. An
+                exception will be raised when this is attempted in <tt>-j</tt> mode.
+                </p>
+                <h2>What is the Difference Between <tt>-j</tt> and Multitask?</h2>
+                <p>
+                What if you replaced <tt>task</tt> with <tt>multitask</tt> everywhere in
+                your Rakefile?  Isn&#8217;t that the same as <tt>-j</tt>?
+                </p>
+                <p>
+                It is effectively the same when the number of tasks is small.  However an
+                all-multitask Rakefile becomes problematic as the number of tasks and
+                dependencies increase.  The number of lines in the dependency graph would
+                be equal to the number of threads running simultaneously. Multitask blindly
+                fires off N threads for the N prerequisites of a task.
+                </p>
+                <p>
+                A simplistic <tt>multitask</tt> setup for compiling 100 C files might spawn
+                100 threads running 100 compiler processes all at the same time. To reduce
+                the load you could make several reasonably-sized multitasks then tie them
+                together with a regular <tt>task</tt>. Or you could just use <tt>-j</tt>.
+                </p>
+              </div>
+              <div id='context'>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

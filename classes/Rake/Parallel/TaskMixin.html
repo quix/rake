@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Rake::Parallel::TaskMixin</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+            <h1 class='name'>
+              <span class='type'>module</span>
+              Rake::Parallel::TaskMixin
+            </h1>
+            <ol class='paths'>
+              <li>
+                <a target="docwin" href="../../../files/lib/rake/parallel_rb.html">lib/rake/parallel.rb</a>
+              </li>
+            </ol>
+            <div class='parent'>
+              Parent:
+              <strong><a target="docwin" href="../Parallel.html">Parallel</a></strong>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'></div>
+              <div id='method-list'>
+                <h2>Methods</h2>
+                <h3>Public Instance</h3>
+                <ol>
+                  <li><a target="docwin" href="#method-i-invoke_parallel">invoke_parallel</a></li>
+                  <li><a target="docwin" href="#method-i-collect_for_parallel_execution">collect_for_parallel_execution</a></li>
+                </ol>
+              </div>
+              <div id='context'>
+              </div>
+              <div id='section'>
+                <div id='methods'>
+                  <h2>Public Instance methods</h2>
+                  <div class='method public-instance' id='method-method-i-invoke_parallel'>
+                    <a name='method-i-invoke_parallel'></a>
+                    <div class='synopsis'>
+                      <span class='name'>invoke_parallel</span>
+                      <span class='arguments'>(*task_args)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Top-level parallel invocation.
+                      </p>
+                      <p>
+                      Called from <a href="../Task.html#method-i-invoke">Task#invoke</a>.
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-invoke_parallel-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-invoke_parallel-source'>     <span class="ruby-comment cmt"># File lib/rake/parallel.rb, line 98</span>&#x000A; 98:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">invoke_parallel</span>(*<span class="ruby-identifier">task_args</span>)&#x000A; 99:         <span class="ruby-identifier">application</span>.<span class="ruby-identifier">parallel</span>.&#x000A;100:           <span class="ruby-identifier">invoke</span>(<span class="ruby-identifier">application</span>.<span class="ruby-identifier">options</span>.<span class="ruby-identifier">threads</span>, <span class="ruby-keyword kw">self</span>, *<span class="ruby-identifier">task_args</span>)&#x000A;101:       <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-collect_for_parallel_execution'>
+                    <a name='method-i-collect_for_parallel_execution'></a>
+                    <div class='synopsis'>
+                      <span class='name'>collect_for_parallel_execution</span>
+                      <span class='arguments'>(task_args, new_chain, previous_chain)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Collect tasks for parallel execution.
+                      </p>
+                      <p>
+                      Called from Task#invoke_with_call_chain.
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-collect_for_parallel_execution-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-collect_for_parallel_execution-source'>     <span class="ruby-comment cmt"># File lib/rake/parallel.rb, line 108</span>&#x000A;108:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">collect_for_parallel_execution</span>(<span class="ruby-identifier">task_args</span>, <span class="ruby-identifier">new_chain</span>, <span class="ruby-identifier">previous_chain</span>)&#x000A;109:         <span class="ruby-comment cmt"># call Task#invoke_prerequisites directly (avoid overrides)</span>&#x000A;110:         <span class="ruby-identifier">prereqs</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:invoke_prerequisites</span>).&#x000A;111:           <span class="ruby-identifier">bind</span>(<span class="ruby-keyword kw">self</span>).<span class="ruby-identifier">call</span>(<span class="ruby-identifier">task_args</span>, <span class="ruby-identifier">new_chain</span>)&#x000A;112: &#x000A;113:         <span class="ruby-identifier">tasks</span> = <span class="ruby-identifier">application</span>.<span class="ruby-identifier">parallel</span>.<span class="ruby-identifier">tasks</span>&#x000A;114:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">needed?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">prereqs</span>.<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tasks</span>[<span class="ruby-identifier">p</span>] }&#x000A;115:           <span class="ruby-identifier">tasks</span>[<span class="ruby-keyword kw">self</span>] = [<span class="ruby-identifier">task_args</span>, <span class="ruby-identifier">prereqs</span>]&#x000A;116:         <span class="ruby-keyword kw">end</span>&#x000A;117:       <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

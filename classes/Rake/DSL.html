@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Rake::DSL</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+            <h1 class='name'>
+              <span class='type'>module</span>
+              Rake::DSL
+            </h1>
+            <ol class='paths'>
+              <li>
+                <a target="docwin" href="../../files/lib/rake/dsl_definition_rb.html">lib/rake/dsl_definition.rb</a>
+              </li>
+            </ol>
+            <div class='parent'>
+              Parent:
+              <strong><a target="docwin" href="../Rake.html">Rake</a></strong>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'></div>
+              <div id='method-list'>
+                <h2>Methods</h2>
+                <h3>Private Instance</h3>
+                <ol>
+                  <li><a target="docwin" href="#method-i-task">task</a></li>
+                  <li><a target="docwin" href="#method-i-file">file</a></li>
+                  <li><a target="docwin" href="#method-i-file_create">file_create</a></li>
+                  <li><a target="docwin" href="#method-i-directory">directory</a></li>
+                  <li><a target="docwin" href="#method-i-multitask">multitask</a></li>
+                  <li><a target="docwin" href="#method-i-namespace">namespace</a></li>
+                  <li><a target="docwin" href="#method-i-rule">rule</a></li>
+                  <li><a target="docwin" href="#method-i-desc">desc</a></li>
+                  <li><a target="docwin" href="#method-i-import">import</a></li>
+                </ol>
+              </div>
+              <div id='context'>
+                <div id='includes'>
+                  <h2>Included modules</h2>
+                  <ol>
+                    <li>FileUtilsExt</li>
+                  </ol>
+                </div>
+              </div>
+              <div id='section'>
+                <div id='methods'>
+                  <h2>Private Instance methods</h2>
+                  <div class='method private-instance' id='method-method-i-task'>
+                    <a name='method-i-task'></a>
+                    <div class='synopsis'>
+                      <span class='name'>task</span>
+                      <span class='arguments'>(*args, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a basic task.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>task :clobber =&gt; [:clean] do&#x000A;  rm_rf &quot;html&quot;&#x000A;end</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-task-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-task-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 24</span>&#x000A;24:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">task</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;25:       <span class="ruby-constant">Rake</span><span class="ruby-operator">::</span><span class="ruby-constant">Task</span>.<span class="ruby-identifier">define_task</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;26:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-file'>
+                    <a name='method-i-file'></a>
+                    <div class='synopsis'>
+                      <span class='name'>file</span>
+                      <span class='arguments'>(*args, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a file task.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre> file &quot;config.cfg&quot; =&gt; [&quot;config.template&quot;] do&#x000A;   open(&quot;config.cfg&quot;, &quot;w&quot;) do |outfile|&#x000A;     open(&quot;config.template&quot;) do |infile|&#x000A;       while line = infile.gets&#x000A;         outfile.puts line&#x000A;       end&#x000A;     end&#x000A;   end&#x000A;end</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-file-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-file-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 42</span>&#x000A;42:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;43:       <span class="ruby-constant">Rake</span><span class="ruby-operator">::</span><span class="ruby-constant">FileTask</span>.<span class="ruby-identifier">define_task</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;44:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-file_create'>
+                    <a name='method-i-file_create'></a>
+                    <div class='synopsis'>
+                      <span class='name'>file_create</span>
+                      <span class='arguments'>(args, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a file creation task. (Mainly used for the directory command).
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-file_create-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-file_create-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 48</span>&#x000A;48:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file_create</span>(<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;49:       <span class="ruby-constant">Rake</span><span class="ruby-operator">::</span><span class="ruby-constant">FileCreationTask</span>.<span class="ruby-identifier">define_task</span>(<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;50:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-directory'>
+                    <a name='method-i-directory'></a>
+                    <div class='synopsis'>
+                      <span class='name'>directory</span>
+                      <span class='arguments'>(dir)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a set of files tasks to create the given directories on demand.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>directory &quot;testdata/doc&quot;</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-directory-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-directory-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 58</span>&#x000A;58:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">directory</span>(<span class="ruby-identifier">dir</span>)&#x000A;59:       <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">each_dir_parent</span>(<span class="ruby-identifier">dir</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>&#x000A;60:         <span class="ruby-identifier">file_create</span> <span class="ruby-identifier">d</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>&#x000A;61:           <span class="ruby-identifier">mkdir_p</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">name</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">t</span>.<span class="ruby-identifier">name</span>)&#x000A;62:         <span class="ruby-keyword kw">end</span>&#x000A;63:       <span class="ruby-keyword kw">end</span>&#x000A;64:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-multitask'>
+                    <a name='method-i-multitask'></a>
+                    <div class='synopsis'>
+                      <span class='name'>multitask</span>
+                      <span class='arguments'>(args, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a task that performs its prerequisites in parallel. Multitasks does
+                      <b>not</b> guarantee that its prerequisites will execute in any given order
+                      (which is obvious when you think about it)
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>multitask :deploy =&gt; [:deploy_gem, :deploy_rdoc]</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-multitask-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-multitask-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 74</span>&#x000A;74:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">multitask</span>(<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;75:       <span class="ruby-constant">Rake</span><span class="ruby-operator">::</span><span class="ruby-constant">MultiTask</span>.<span class="ruby-identifier">define_task</span>(<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;76:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-namespace'>
+                    <a name='method-i-namespace'></a>
+                    <div class='synopsis'>
+                      <span class='name'>namespace</span>
+                      <span class='arguments'>(name=nil, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Create a new rake namespace and use it for evaluating the given block. 
+                      Returns a <a href="NameSpace.html">NameSpace</a> object that can be used to
+                      lookup tasks defined in the namespace.
+                      </p>
+                      <p>
+                      E.g.
+                      </p>
+                      <pre>ns = namespace &quot;nested&quot; do&#x000A;  task :run&#x000A;end&#x000A;task_run = ns[:run] # find :run in the given namespace.</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-namespace-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-namespace-source'>    <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 89</span>&#x000A;89:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">namespace</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword kw">nil</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;90:       <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Symbol</span>)&#x000A;91:       <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_str</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_str</span>)&#x000A;92:       <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>&#x000A;93:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Expected a String or Symbol for a namespace name&quot;</span>&#x000A;94:       <span class="ruby-keyword kw">end</span>&#x000A;95:       <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">in_namespace</span>(<span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;96:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-rule'>
+                    <a name='method-i-rule'></a>
+                    <div class='synopsis'>
+                      <span class='name'>rule</span>
+                      <span class='arguments'>(*args, &block)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Declare a rule for auto-tasks.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>rule '.o' =&gt; '.c' do |t|&#x000A;  sh %{cc -o #{t.name} #{t.source}}&#x000A;end</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-rule-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-rule-source'>     <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 105</span>&#x000A;105:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rule</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;106:       <span class="ruby-constant">Rake</span><span class="ruby-operator">::</span><span class="ruby-constant">Task</span>.<span class="ruby-identifier">create_rule</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)&#x000A;107:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-desc'>
+                    <a name='method-i-desc'></a>
+                    <div class='synopsis'>
+                      <span class='name'>desc</span>
+                      <span class='arguments'>(description)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Describe the next rake task.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>desc &quot;Run the Unit Tests&quot;&#x000A;task :test =&gt; [:build]&#x000A;  runtests&#x000A;end</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-desc-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-desc-source'>     <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 117</span>&#x000A;117:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>)&#x000A;118:       <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">last_description</span> = <span class="ruby-identifier">description</span>&#x000A;119:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method private-instance' id='method-method-i-import'>
+                    <a name='method-i-import'></a>
+                    <div class='synopsis'>
+                      <span class='name'>import</span>
+                      <span class='arguments'>(*fns)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Import the partial Rakefiles <tt>fn</tt>.  Imported files are loaded
+                      <em>after</em> the current file is completely loaded.  This allows the
+                      import statement to appear anywhere in the importing file, and yet allowing
+                      the imported files to depend on objects defined in the importing file.
+                      </p>
+                      <p>
+                      A common use of the import statement is to include files containing
+                      dependency declarations.
+                      </p>
+                      <p>
+                      See also the &#8212;rakelibdir command line option.
+                      </p>
+                      <p>
+                      Example:
+                      </p>
+                      <pre>import &quot;.depend&quot;, &quot;my_rules&quot;</pre>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-import-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-import-source'>     <span class="ruby-comment cmt"># File lib/rake/dsl_definition.rb, line 135</span>&#x000A;135:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">import</span>(*<span class="ruby-identifier">fns</span>)&#x000A;136:       <span class="ruby-identifier">fns</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fn</span><span class="ruby-operator">|</span>&#x000A;137:         <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">add_import</span>(<span class="ruby-identifier">fn</span>)&#x000A;138:       <span class="ruby-keyword kw">end</span>&#x000A;139:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

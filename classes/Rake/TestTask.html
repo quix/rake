@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Rake::TestTask</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+            <h1 class='name'>
+              <span class='type'>class</span>
+              Rake::TestTask
+            </h1>
+            <ol class='paths'>
+              <li>
+                <a target="docwin" href="../../files/lib/rake/testtask_rb.html">lib/rake/testtask.rb</a>
+              </li>
+            </ol>
+            <div class='parent'>
+              Parent:
+              <strong><a target="docwin" href="../Rake.html">Rake</a></strong>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <p>
+                Create a task that runs a set of tests.
+                </p>
+                <p>
+                Example:
+                </p>
+                <pre>Rake::TestTask.new do |t|&#x000A;  t.libs &lt;&lt; &quot;test&quot;&#x000A;  t.test_files = FileList['test/test*.rb']&#x000A;  t.verbose = true&#x000A;end</pre>
+                <p>
+                If rake is invoked with a &#8220;TEST=filename&#8221; command line option,
+                then the list of test files will be overridden to include only the filename
+                specified on the command line.  This provides an easy way to run just one
+                test.
+                </p>
+                <p>
+                If rake is invoked with a &#8220;TESTOPTS=options&#8221; command line
+                option, then the given options are passed to the test process after a
+                &#8217;&#8212;&#8217;.  This allows Test::Unit options to be passed to the
+                test suite.
+                </p>
+                <p>
+                Examples:
+                </p>
+                <pre>rake test                           # run tests normally&#x000A;rake test TEST=just_one_file.rb     # run just one test file.&#x000A;rake test TESTOPTS=&quot;-v&quot;             # run in verbose mode&#x000A;rake test TESTOPTS=&quot;--runner=fox&quot;   # use the fox test runner</pre>
+              </div>
+              <div id='method-list'>
+                <h2>Methods</h2>
+                <h3>Public Accessor</h3>
+                <ol>
+                  <li><a target="docwin" href="#method-name">name</a></li>
+                  <li><a target="docwin" href="#method-libs">libs</a></li>
+                  <li><a target="docwin" href="#method-verbose">verbose</a></li>
+                  <li><a target="docwin" href="#method-options">options</a></li>
+                  <li><a target="docwin" href="#method-warning">warning</a></li>
+                  <li><a target="docwin" href="#method-pattern">pattern</a></li>
+                  <li><a target="docwin" href="#method-loader">loader</a></li>
+                  <li><a target="docwin" href="#method-ruby-opts">ruby_opts</a></li>
+                </ol>
+                <h3>Public Class</h3>
+                <ol>
+                  <li><a target="docwin" href="#method-c-new">new</a></li>
+                </ol>
+                <h3>Public Instance</h3>
+                <ol>
+                  <li><a target="docwin" href="#method-i-test_files%3D">test_files=</a></li>
+                  <li><a target="docwin" href="#method-i-define">define</a></li>
+                  <li><a target="docwin" href="#method-i-ruby_opts_string">ruby_opts_string</a></li>
+                  <li><a target="docwin" href="#method-i-lib_path">lib_path</a></li>
+                  <li><a target="docwin" href="#method-i-file_list_string">file_list_string</a></li>
+                  <li><a target="docwin" href="#method-i-ruby_version">ruby_version</a></li>
+                  <li><a target="docwin" href="#method-i-run_code">run_code</a></li>
+                </ol>
+              </div>
+              <div id='context'>
+              </div>
+              <div id='section'>
+                <div id='attribute-list'>
+                  <h2 class='section-bar'>Attributes</h2>
+                  <div class='name-list'>
+                    <table>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-name'>name</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Name of test task. (default is :test)
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-libs'>libs</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          List of directories to added to $LOAD_PATH before running the tests.
+                          (default is &#8216;lib&#8217;)
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-verbose'>verbose</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          True if verbose test output desired. (default is false)
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-options'>options</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Test options passed to the test suite.  An explicit TESTOPTS=opts on the
+                          command line will override this. (default is NONE)
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-warning'>warning</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Request that the tests be run with the warning flag set. E.g. warning=true
+                          implies &#8220;ruby -w&#8221; used to run the tests.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-pattern'>pattern</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Glob pattern to match test files. (default is &#8216;test/test*.rb&#8217;)
+                          </p>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-loader'>loader</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Style of test loader to use.  Options are:
+                          </p>
+                          <ul>
+                          <li><p>
+                          :rake &#8212; <a href="../Rake.html">Rake</a> provided test loading script
+                          (default).
+                          </p>
+                          </li>
+                          <li><p>
+                          :testrb &#8212; Ruby provided test loading script.
+                          </p>
+                          </li>
+                          <li><p>
+                          :direct &#8212; Load tests using command line loader.
+                          </p>
+                          </li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr class='top-aligned-row context-row'>
+                        <td class='context-item-name'>
+                          <a name='method-ruby-opts'>ruby_opts</a>
+                        </td>
+                        <td class='context-item-value'>[RW]</td>
+                        <td class='context-item-desc'>
+                          <p>
+                          Array of commandline options to pass to ruby when running test loader.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div id='methods'>
+                  <h2>Public Instance methods</h2>
+                  <div class='method public-instance' id='method-method-i-test_files%3D'>
+                    <a name='method-i-test_files%3D'></a>
+                    <div class='synopsis'>
+                      <span class='name'>test_files=</span>
+                      <span class='arguments'>(list)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Explicitly define the list of test files to be included in a test. 
+                      <tt>list</tt> is expected to be an array of file names (a <a
+                      href="FileList.html">FileList</a> is acceptable).  If both <tt>pattern</tt>
+                      and <tt>test_files</tt> are used, then the list of test files is the union
+                      of the two.
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-test_files%3D-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-test_files%3D-source'>    <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 74</span>&#x000A;74:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_files=</span>(<span class="ruby-identifier">list</span>)&#x000A;75:       <span class="ruby-ivar">@test_files</span> = <span class="ruby-identifier">list</span>&#x000A;76:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-define'>
+                    <a name='method-i-define'></a>
+                    <div class='synopsis'>
+                      <span class='name'>define</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Create the tasks defined by this task lib.
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-define-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-define-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 95</span>&#x000A; 95:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">define</span>&#x000A; 96:       <span class="ruby-identifier">desc</span> <span class="ruby-value str">&quot;Run tests&quot;</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@name</span><span class="ruby-operator">==</span><span class="ruby-value">:test</span> <span class="ruby-operator">?</span> <span class="ruby-value str">&quot;&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot; for #{@name}&quot;</span>)&#x000A; 97:       <span class="ruby-identifier">task</span> <span class="ruby-ivar">@name</span> <span class="ruby-keyword kw">do</span>&#x000A; 98:         <span class="ruby-constant">FileUtilsExt</span>.<span class="ruby-identifier">verbose</span>(<span class="ruby-ivar">@verbose</span>) <span class="ruby-keyword kw">do</span>&#x000A; 99:           <span class="ruby-identifier">ruby</span> <span class="ruby-node">&quot;#{ruby_opts_string} #{run_code} #{file_list_string} #{option_list}&quot;</span>&#x000A;100:         <span class="ruby-keyword kw">end</span>&#x000A;101:       <span class="ruby-keyword kw">end</span>&#x000A;102:       <span class="ruby-keyword kw">self</span>&#x000A;103:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-ruby_opts_string'>
+                    <a name='method-i-ruby_opts_string'></a>
+                    <div class='synopsis'>
+                      <span class='name'>ruby_opts_string</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-ruby_opts_string-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-ruby_opts_string-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 114</span>&#x000A;114:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ruby_opts_string</span>&#x000A;115:       <span class="ruby-identifier">opts</span> = <span class="ruby-ivar">@ruby_opts</span>.<span class="ruby-identifier">dup</span>&#x000A;116:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">unshift</span>( <span class="ruby-node">&quot;-I\&quot;#{lib_path}\&quot;&quot;</span> ) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@libs</span>.<span class="ruby-identifier">empty?</span>&#x000A;117:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">unshift</span>( <span class="ruby-value str">&quot;-w&quot;</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@warning</span>&#x000A;118:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot; &quot;</span>)&#x000A;119:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-lib_path'>
+                    <a name='method-i-lib_path'></a>
+                    <div class='synopsis'>
+                      <span class='name'>lib_path</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-lib_path-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-lib_path-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 121</span>&#x000A;121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lib_path</span>&#x000A;122:       <span class="ruby-ivar">@libs</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>)&#x000A;123:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-file_list_string'>
+                    <a name='method-i-file_list_string'></a>
+                    <div class='synopsis'>
+                      <span class='name'>file_list_string</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-file_list_string-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-file_list_string-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 125</span>&#x000A;125:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file_list_string</span>&#x000A;126:       <span class="ruby-identifier">file_list</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">fn</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\&quot;#{fn}\&quot;&quot;</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">' '</span>)&#x000A;127:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-ruby_version'>
+                    <a name='method-i-ruby_version'></a>
+                    <div class='synopsis'>
+                      <span class='name'>ruby_version</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-ruby_version-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-ruby_version-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 149</span>&#x000A;149:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ruby_version</span>&#x000A;150:       <span class="ruby-constant">RUBY_VERSION</span>&#x000A;151:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <div class='method public-instance' id='method-method-i-run_code'>
+                    <a name='method-i-run_code'></a>
+                    <div class='synopsis'>
+                      <span class='name'>run_code</span>
+                      <span class='arguments'>()</span>
+                    </div>
+                    <div class='description'>
+                      
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-i-run_code-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-i-run_code-source'>     <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 153</span>&#x000A;153:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_code</span>&#x000A;154:       <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@loader</span>&#x000A;155:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:direct</span>&#x000A;156:         <span class="ruby-value str">&quot;-e \&quot;ARGV.each{|f| require f}\&quot;&quot;</span>&#x000A;157:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:testrb</span>&#x000A;158:         <span class="ruby-node">&quot;-S testrb #{fix}&quot;</span>&#x000A;159:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">:rake</span>&#x000A;160:         <span class="ruby-node">&quot;-I\&quot;#{rake_lib_dir}\&quot; \&quot;#{rake_loader}\&quot;&quot;</span>&#x000A;161:       <span class="ruby-keyword kw">end</span>&#x000A;162:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                  <h2>Public Class methods</h2>
+                  <div class='method public-class' id='method-method-c-new'>
+                    <a name='method-c-new'></a>
+                    <div class='synopsis'>
+                      <span class='name'>new</span>
+                      <span class='arguments'>(name=:test)</span>
+                    </div>
+                    <div class='description'>
+                      <p>
+                      Create a testing task.
+                      </p>
+                    </div>
+                    <div class='source'>
+                      <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
+                        [show source]
+                      </a>
+                      <pre id='method-c-new-source'>    <span class="ruby-comment cmt"># File lib/rake/testtask.rb, line 79</span>&#x000A;79:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">name</span>=<span class="ruby-value">:test</span>)&#x000A;80:       <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">name</span>&#x000A;81:       <span class="ruby-ivar">@libs</span> = [<span class="ruby-value str">&quot;lib&quot;</span>]&#x000A;82:       <span class="ruby-ivar">@pattern</span> = <span class="ruby-keyword kw">nil</span>&#x000A;83:       <span class="ruby-ivar">@options</span> = <span class="ruby-keyword kw">nil</span>&#x000A;84:       <span class="ruby-ivar">@test_files</span> = <span class="ruby-keyword kw">nil</span>&#x000A;85:       <span class="ruby-ivar">@verbose</span> = <span class="ruby-keyword kw">false</span>&#x000A;86:       <span class="ruby-ivar">@warning</span> = <span class="ruby-keyword kw">false</span>&#x000A;87:       <span class="ruby-ivar">@loader</span> = <span class="ruby-value">:rake</span>&#x000A;88:       <span class="ruby-ivar">@ruby_opts</span> = []&#x000A;89:       <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>&#x000A;90:       <span class="ruby-ivar">@pattern</span> = <span class="ruby-value str">'test/test*.rb'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@pattern</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@test_files</span>.<span class="ruby-identifier">nil?</span>&#x000A;91:       <span class="ruby-identifier">define</span>&#x000A;92:     <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

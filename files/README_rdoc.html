@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>README.rdoc</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+            <div class='name'>README.rdoc</div>
+            <div class='paths'>
+              README.rdoc
+            </div>
+            <div class='last-update'>
+              Last Update:
+              <span class='datetime'>2011-07-31 09:56:04 -0400</span>
+            </div>
+          </div>
+          <div id='content'>
+            <div id='text'>
+              <div id='description'>
+                <h1>DRAKE &#8212; Distributed <a href="../classes/Rake.html">Rake</a></h1>
+                <p>
+                A branch of <a href="../classes/Rake.html">Rake</a> supporting automatic
+                parallelizing of tasks.
+                </p>
+                <h2>Synopsis</h2>
+                <p>
+                Run up to three tasks in parallel:
+                </p>
+                <pre>% drake -j3</pre>
+                <p>
+                Run as many tasks in parallel as the dependencies allow:
+                </p>
+                <pre>% drake -j</pre>
+                <h2>Installation</h2>
+                <pre>% gem install drake</pre>
+                <h2>Notes</h2>
+                <p>
+                Drake is fully compatible with <a href="../classes/Rake.html">Rake</a>. 
+                The code base is identical to that of <a
+                href="../classes/Rake.html">Rake</a> except for the addition of the -j
+                option.
+                </p>
+                <p>
+                For the purposes of this documentation, the &#8216;rake&#8217; and
+                &#8216;drake&#8217; commands are interchangeable.  The drake gem will
+                install the drake executable.  On your system you may alias or link drake
+                to rake if desired.
+                </p>
+                <p>
+                For more on parallelization with -j, see <a
+                href="http://quix.github.com/rake/files/doc/parallel_rdoc.html">parallel.rdoc</a>.
+                </p>
+                <h2>Links</h2>
+                <ul>
+                <li><p>
+                Home: <a target="_top" href="http://quix.github.com/rake">quix.github.com/rake</a>
+                </p>
+                </li>
+                <li><p>
+                Feature Requests, Bug Reports: <a
+                href="http://github.com/quix/rake/issues">github.com/quix/rake/issues</a>
+                </p>
+                </li>
+                <li><p>
+                Repository: <a target="_top" href="http://github.com/quix/rake">github.com/quix/rake</a>
+                </p>
+                </li>
+                </ul>
+                <h2>Author</h2>
+                <ul>
+                <li><p>
+                James M. Lawrence <quixoticsycophant@gmail.com>
+                </p>
+                </li>
+                </ul>
+                <h2>License</h2>
+                <p>
+                Copyright &#169; 2003-2010 Jim Weirich
+                </p>
+                <p>
+                Copyright &#169; 2008-2011 James M. Lawrence
+                </p>
+                <p>
+                Permission is hereby granted, free of charge, to any person obtaining a
+                copy of this software and associated documentation files (the
+                &#8220;Software&#8221;), to deal in the Software without restriction,
+                including without limitation the rights to use, copy, modify, merge,
+                publish, distribute, sublicense, and/or sell copies of the Software, and to
+                permit persons to whom the Software is furnished to do so, subject to the
+                following conditions:
+                </p>
+                <p>
+                The above copyright notice and this permission notice shall be included in
+                all copies or substantial portions of the Software.
+                </p>
+                <p>
+                THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
+                EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+                MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+                NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+                DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+                OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+                USE OR OTHER DEALINGS IN THE SOFTWARE.
+                </p>
+                <h1>RAKE &#8212; Ruby Make &#8212; <em>mainline branch</em></h1>
+                <p>
+                Supporting <a href="../classes/Rake.html">Rake</a> version: 0.8.7.
+                </p>
+                <p>
+                This package contains <a href="../classes/Rake.html">Rake</a>, a simple
+                ruby build program with capabilities similar to make.
+                </p>
+                <p>
+                <a href="../classes/Rake.html">Rake</a> has the following features:
+                </p>
+                <ul>
+                <li><p>
+                Rakefiles (rake&#8217;s version of Makefiles) are completely defined in
+                standard Ruby syntax.  No XML files to edit.  No quirky Makefile syntax to
+                worry about (is that a tab or a space?)
+                </p>
+                </li>
+                <li><p>
+                Users can specify tasks with prerequisites.
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> supports rule patterns to
+                synthesize implicit tasks.
+                </p>
+                </li>
+                <li><p>
+                Flexible FileLists that act like arrays but know about manipulating file
+                names and paths.
+                </p>
+                </li>
+                <li><p>
+                A library of prepackaged tasks to make building rakefiles easier. For
+                example, tasks for building tarballs, gems and RDoc output are provided.
+                </p>
+                </li>
+                <li><p>
+                Supports parallel execution of tasks.
+                </p>
+                </li>
+                </ul>
+                <h2>Installation</h2>
+                <h3>Gem Installation</h3>
+                <p>
+                Download and install  rake with the following.
+                </p>
+                <pre>gem install rake</pre>
+                <h3>Normal Installation</h3>
+                <p>
+                You can download the source tarball of the latest version of <a
+                href="../classes/Rake.html">Rake</a> from
+                </p>
+                <ul>
+                <li><p>
+                <a
+                href="http://rubyforge.org/project/showfiles.php?group_id=50">rubyforge.org/project/showfiles.php?group_id=50</a>
+                </p>
+                </li>
+                </ul>
+                <p>
+                Extract the tarball and run
+                </p>
+                <pre>% ruby install.rb</pre>
+                <p>
+                from its distribution directory.
+                </p>
+                <h2>Usage</h2>
+                <h3>Simple Example</h3>
+                <p>
+                First, you must write a &#8220;Rakefile&#8221; file which contains the
+                build rules. Here&#8217;s a simple example:
+                </p>
+                <pre>task :default =&gt; [:test]&#x000A;&#x000A;task :test do&#x000A;  ruby &quot;test/unittest.rb&quot;&#x000A;end</pre>
+                <p>
+                This Rakefile has two tasks:
+                </p>
+                <ul>
+                <li><p>
+                A task named &#8220;test&#8221;, which - upon invocation - will run a unit
+                test file in Ruby.
+                </p>
+                </li>
+                <li><p>
+                A task named &#8220;default&#8221;. This task does nothing by itself, but
+                it has exactly one dependency, namely the &#8220;test&#8221; task. Invoking
+                the &#8220;default&#8221; task will cause <a
+                href="../classes/Rake.html">Rake</a> to invoke the &#8220;test&#8221; task
+                as well.
+                </p>
+                </li>
+                </ul>
+                <p>
+                Running the &#8220;rake&#8221; command without any options will cause it to
+                run the &#8220;default&#8221; task in the Rakefile:
+                </p>
+                <pre>% ls&#x000A;Rakefile     test/&#x000A;% rake&#x000A;(in /home/some_user/Projects/rake)&#x000A;ruby test/unittest.rb&#x000A;....unit test output here...</pre>
+                <p>
+                Type &#8220;rake &#8212;help&#8221; for all available options.
+                </p>
+                <h3>More Information</h3>
+                <ul>
+                <li><p>
+                For details on Rake&#8217;s command-line invocation, read <a
+                href="http://rake.rubyforge.org/files/doc/command_line_usage_rdoc.html">doc/command_line_usage.rdoc</a>
+                </p>
+                </li>
+                <li><p>
+                For details on writing Rakefiles, see <a
+                href="http://rake.rubyforge.org/files/doc/rakefile_rdoc.html">doc/rakefile.rdoc</a>.
+                </p>
+                </li>
+                <li><p>
+                For the original announcement of <a href="../classes/Rake.html">Rake</a>,
+                see <a
+                href="http://rake.rubyforge.org/files/doc/rational_rdoc.html">doc/rational.rdoc</a>.
+                </p>
+                </li>
+                <li><p>
+                For a glossary of terms, see <a
+                href="http://rake.rubyforge.org/files/doc/glossary_rdoc.html">doc/glossary.rdoc</a>.
+                </p>
+                </li>
+                </ul>
+                <h2>Development</h2>
+                <h3>Source Repository</h3>
+                <p>
+                <a href="../classes/Rake.html">Rake</a> is currently hosted at github. The
+                github web page is <a
+                href="http://github.com/jimweirich/rake.">github.com/jimweirich/rake.</a>
+                The public git clone URL is
+                </p>
+                <ul>
+                <li><p>
+                git://github.com/jimweirich/rake.git
+                </p>
+                </li>
+                </ul>
+                <h3>Running the <a href="../classes/Rake.html">Rake</a> Test Suite</h3>
+                <p>
+                If you wish to run the unit and functional tests that come with Rake:
+                </p>
+                <ul>
+                <li><p>
+                Install the &#8216;flexmock&#8217; gem
+                </p>
+                </li>
+                <li><p>
+                Install the &#8216;session&#8217; gem in order to run the functional tests.
+                </p>
+                </li>
+                <li><p>
+                CD into the top project directory of rake.
+                </p>
+                </li>
+                <li><p>
+                Type one of the following:
+                </p>
+                <pre>rake                  # If you have a version of rake installed&#x000A;ruby -Ilib bin/rake   # If you do not have a version of rake installed.</pre>
+                </li>
+                </ul>
+                <h3>Issues and Bug Reports</h3>
+                <p>
+                Feature requests and bug reports can be made here
+                </p>
+                <ul>
+                <li><p>
+                <a
+                href="http://onestepback.org/cgi-bin/bugs.cgi?project=rake">onestepback.org/cgi-bin/bugs.cgi?project=rake</a>
+                </p>
+                </li>
+                </ul>
+                <p>
+                No account is needed for posting requests.  Or you can send me an email (at
+                jim dot weirich at gmail dot com)
+                </p>
+                <p>
+                Issues and bug reports can be tracked here:
+                </p>
+                <ul>
+                <li><p>
+                <a
+                href="http://www.pivotaltracker.com/projects/28469">www.pivotaltracker.com/projects/28469</a>
+                </p>
+                </li>
+                </ul>
+                <h2>Online Resources</h2>
+                <h3><a href="../classes/Rake.html">Rake</a> References</h3>
+                <ul>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Documentation Home: <a
+                href="http://docs.rubyrake.org">docs.rubyrake.org</a>
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Project Page: <a
+                href="http://rubyforge.org/projects/rake">rubyforge.org/projects/rake</a>
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> API Documents: <a
+                href="http://rake.rubyforge.org">rake.rubyforge.org</a>
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Source Code Repo:  <a
+                href="http://github.com/jimweirich/rake">github.com/jimweirich/rake</a>
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Git Repo Clone URL:
+                git://github.com/jimweirich/rake.git
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Issue Tracking: <a
+                href="http://www.pivotaltracker.com/projects/28469">www.pivotaltracker.com/projects/28469</a>
+                </p>
+                </li>
+                <li><p>
+                <a href="../classes/Rake.html">Rake</a> Bug Reports: <a
+                href="http://onestepback.org/cgi-bin/bugs.cgi?project=rake">onestepback.org/cgi-bin/bugs.cgi?project=rake</a>
+                </p>
+                </li>
+                </ul>
+                <h3>Presentations and Articles about <a href="../classes/Rake.html">Rake</a></h3>
+                <ul>
+                <li><p>
+                Jim Weirich&#8217;s 2003 RubyConf presentation: <a
+                href="http://onestepback.org/articles/buildingwithrake/">onestepback.org/articles/buildingwithrake/</a>
+                </p>
+                </li>
+                <li><p>
+                Martin Fowler&#8217;s article on Rake: <a
+                href="http://martinfowler.com/articles/rake.html">martinfowler.com/articles/rake.html</a>
+                </p>
+                </li>
+                </ul>
+                <h2>Other Make Reinvisionings &#8230;</h2>
+                <p>
+                <a href="../classes/Rake.html">Rake</a> is a late entry in the make
+                replacement field.  Here are links to other projects with similar (and not
+                so similar) goals.
+                </p>
+                <ul>
+                <li><p>
+                <a
+                href="http://directory.fsf.org/bras.html">directory.fsf.org/bras.html</a>
+                &#8212; Bras, one of earliest implementations of &#8220;make in a scripting
+                language&#8221;.
+                </p>
+                </li>
+                <li><p>
+                <a target="_top" href="http://www.a-a-p.org">www.a-a-p.org</a> &#8212; Make in Python
+                </p>
+                </li>
+                <li><p>
+                <a
+                href="http://www.aromatic.com/tools/jam.txt">www.aromatic.com/tools/jam.txt</a>
+                &#8212; JAM, Java Automated Make
+                </p>
+                </li>
+                <li><p>
+                <a target="_top" href="http://ant.apache.org">ant.apache.org</a> &#8212; The Ant project
+                </p>
+                </li>
+                <li><p>
+                <a
+                href="http://ppt.perl.org/commands/make/index.html">ppt.perl.org/commands/make/index.html</a>
+                &#8212; Make from the Perl Power Tools implementation.
+                </p>
+                </li>
+                <li><p>
+                <a
+                href="http://search.cpan.org/search?query=PerlBuildSystem">search.cpan.org/search?query=PerlBuildSystem</a>
+                &#8212; The Perl Build System
+                </p>
+                </li>
+                <li><p>
+                <a target="_top" href="http://make.rubyforge.org">make.rubyforge.org</a> &#8212; Rant,
+                another Ruby make tool.
+                </p>
+                </li>
+                </ul>
+                <h2>Credits</h2>
+                <dl>
+                <dt><b>Ryan Dlugosz</b></dt><dd><p>
+                For the initial conversation that sparked <a
+                href="../classes/Rake.html">Rake</a>.
+                </p>
+                </dd>
+                <dt><b>nobu.nokada@softhome.net</b></dt><dd><p>
+                For the initial patch for rule support.
+                </p>
+                </dd>
+                <dt><b>Tilman Sauerbeck <tilman@code-monkey.de></b></dt><dd><p>
+                For the recursive rule patch.
+                </p>
+                </dd>
+                </dl>
+                <h2>License</h2>
+                <p>
+                <a href="../classes/Rake.html">Rake</a> is available under an MIT-style
+                license.
+                </p>
+                <p>
+                Copyright &#169; 2003, 2004 Jim Weirich
+                </p>
+                <p>
+                Copyright &#169; 2008-2011 James M. Lawrence
+                </p>
+                <p>
+                Permission is hereby granted, free of charge, to any person obtaining a
+                copy of this software and associated documentation files (the
+                &#8220;Software&#8221;), to deal in the Software without restriction,
+                including without limitation the rights to use, copy, modify, merge,
+                publish, distribute, sublicense, and/or sell copies of the Software, and to
+                permit persons to whom the Software is furnished to do so, subject to the
+                following conditions:
+                </p>
+                <p>
+                The above copyright notice and this permission notice shall be included in
+                all copies or substantial portions of the Software.
+                </p>
+                <p>
+                THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
+                EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+                MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+                NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+                DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+                OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+                USE OR OTHER DEALINGS IN THE SOFTWARE.
+                </p>
+                <h2>Support</h2>
+                <p>
+                The <a href="../classes/Rake.html">Rake</a> homepage is <a
+                href="http://rake.rubyforge.org.">rake.rubyforge.org.</a>  You can find the
+                <a href="../classes/Rake.html">Rake</a> RubyForge page at <a
+                href="http://rubyforge.org/projects/rake.">rubyforge.org/projects/rake.</a>
+                </p>
+                <p>
+                Feel free to submit commits or feature requests.  If you send a patch,
+                remember to update the corresponding unit tests.  In fact, I prefer new
+                feature to be submitted in the form of new unit tests.
+                </p>
+                <p>
+                For other information, feel free to ask on the ruby-talk mailing list
+                (which is mirrored to comp.lang.ruby) or contact jim dot weirich at
+                gmail.com.
+                </p>
+                <hr style="height: 1px"></hr><h1>Other stuff</h1>
+                <table>
+                <tr><td valign="top">Author</td><td><p>
+                Jim Weirich <jim.weirich@gmail.com>
+                </p>
+                </td></tr>
+                <tr><td valign="top">Requires</td><td><p>
+                Ruby 1.8.0 or later
+                </p>
+                </td></tr>
+                <tr><td valign="top">License</td><td><p>
+                Copyright 2003-2008 by Jim Weirich. Released under an MIT-style license. 
+                See the LICENSE file included in the distribution.
+                </p>
+                </td></tr>
+                </table>
+                <h2>Warranty</h2>
+                <p>
+                This software is provided &#8220;as is&#8221; and without any express or
+                implied warranties, including, without limitation, the implied warranties
+                of merchantibility and fitness for a particular purpose.
+                </p>
+              </div>
+              <div id='context'>
+              </div>
+            </div>
+          </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
