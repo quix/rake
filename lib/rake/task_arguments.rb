@@ -63,6 +63,18 @@ module Rake
       to_s
     end
 
+    def to_deep_hash
+      if @parent
+        @hash.merge(@parent.to_deep_hash)
+      else
+        @hash
+      end
+    end
+
+    def deep_inspect
+      to_deep_hash.inspect
+    end
+
     protected
 
     def lookup(name)
